@@ -5,8 +5,8 @@ Date: 2026-10-27. Status: accepted scope and design baseline; implementation NOT
 Educational, reproducible OCI software supply-chain verification and verified-update laboratory. First deliverable: a Python CLI that inspects OCI artifacts, verifies authenticated evidence, applies explicit admission policy, and exports audit reports.
 
 ## Approved user decisions
-- Planned public repository: `jnbntc/trustforge` (not created).
-- Dedicated Fedora Atomic Distrobox: `trustforge-dev` (not created).
+- Public repository: [`jnbntc/trustforge`](https://github.com/jnbntc/trustforge) (published; M0–M5 and 28 issues created).
+- Dedicated Fedora Atomic Distrobox: `trustforge-dev` (planned; host availability and existing containers not audited).
 - Deep educational exploration of OCI internals.
 - GitHub issues + pull requests; architecture/review chat and implementation Codex chat.
 - Podman rootless first; investigate KVM/libvirt only before M5.
@@ -60,3 +60,6 @@ Check host Fedora edition/version, Distrobox and Podman availability, rootless n
 - https://docs.sigstore.dev/
 - https://slsa.dev/spec/v1.2/
 - https://bootc.dev/
+
+## Start here after publication
+Read [project status](docs/project-status.md) and the [bootstrap reconciliation](docs/BOOTSTRAP.md). The first operational task is [TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3), beginning with the [read-only Fedora Atomic audit](docs/FEDORA_ATOMIC_PREFLIGHT.md). Container creation and functional runtime checks require a separately approved scope. Tool versions and Python 3.13 remain proposals pending validation. The Apache-2.0 license file is still missing under [TF-001 / #1](https://github.com/jnbntc/trustforge/issues/1).

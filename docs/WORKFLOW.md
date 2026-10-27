@@ -19,5 +19,10 @@ Agent must read AGENTS.md + relevant ADRs, report assumptions, perform tests, pr
 - Exact tests and CI links documented?
 - Policy and ADR changes approved?
 
-## Suggested first implementation prompt (for later)
-Read AGENTS.md, README.md, docs/adr/INDEX.md, and issue TF-003. Implement only the approved Fedora/Distrobox preflight/bootstrap acceptance criteria. Do not modify the host or create other project modules. Provide command outputs, test results and a PR; propose any deviations for review.
+## First operational handoff: TF-003 / issue #3
+Read the [read-only preflight brief](FEDORA_ATOMIC_PREFLIGHT.md), not the historical GitHub creation script. Complete phase A on the actual Fedora Atomic host and report evidence before proposing phase B. Container creation, pulls, starts, package installation and any host configuration changes require approval of the concrete plan.
+
+The audit is not a full TF-003 implementation and must not close #3. Work on one assigned issue at a time using a dedicated branch and PR. A documentation PR is not permission to execute its commands or merge it.
+
+## Codex audit prompt
+> Continue TrustForge TF-003, GitHub issue #3. Read AGENTS.md, README.md, docs/adr/INDEX.md, docs/BACKLOG.md, docs/project-status.md and docs/FEDORA_ATOMIC_PREFLIGHT.md from the reviewed repository version. Execute phase A only on the actual Fedora Atomic host as the normal user. If this session is a container, remote executor or cannot identify the target host, stop the host checks and report the boundary; do not substitute its environment as host evidence. Use only the allowed static/version queries; do not install, pull, start, create, reset, migrate, change services/network/SELinux/permissions, use sudo or read secrets. Keep raw output private outside the tracked repository; do not publish host identifiers or raw logs. Return exact commands, outputs, errors, unverified checks and a sanitized summary, plus a proposed version-pinned Distrobox plan with effects and cleanup for human approval. Do not execute phase B or close #3.
