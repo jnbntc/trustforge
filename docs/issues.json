@@ -1,0 +1,170 @@
+[
+  {
+    "id": "TF-001",
+    "milestone": "M0",
+    "title": "Initialize public Apache-2.0 repo, README, CODEOWNERS optional, CONTRIBUTING, .gitignore, security reporting guidance",
+    "body": "Planning ID: `TF-001`\n\nMilestone: **M0**\n\n## Task\nInitialize public Apache-2.0 repo, README, CODEOWNERS optional, CONTRIBUTING, .gitignore, security reporting guidance.\n\n## Acceptance criteria\nclean clone documented; no secrets.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-002",
+    "milestone": "M0",
+    "title": "`AGENTS.md`, issue/PR templates, ADR framework, project-status and roadmap",
+    "body": "Planning ID: `TF-002`\n\nMilestone: **M0**\n\n## Task\n`AGENTS.md`, issue/PR templates, ADR framework, project-status and roadmap.\n\n## Acceptance criteria\nCodex has explicit scope and delivery contract.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-003",
+    "milestone": "M0",
+    "title": "Dedicated Distrobox bootstrap and host preflight read-only checks",
+    "body": "Planning ID: `TF-003`\n\nMilestone: **M0**\n\n## Task\nDedicated Distrobox bootstrap and host preflight read-only checks.\n\n## Acceptance criteria\nreproducible on Fedora Atomic; versions recorded; no host mutation without approval.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-004",
+    "milestone": "M0",
+    "title": "Python src-layout with uv, Typer, pytest, Ruff, mypy",
+    "body": "Planning ID: `TF-004`\n\nMilestone: **M0**\n\n## Task\nPython src-layout with uv, Typer, pytest, Ruff, mypy.\n\n## Acceptance criteria\nCLI `--help`, tests, lint, type-check in local environment and CI.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-005",
+    "milestone": "M0",
+    "title": "Hardened minimal CI and branch protection instructions",
+    "body": "Planning ID: `TF-005`\n\nMilestone: **M0**\n\n## Task\nHardened minimal CI and branch protection instructions.\n\n## Acceptance criteria\nminimal permissions; untrusted PRs do not receive publish/sign privileges.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-101",
+    "milestone": "M1",
+    "title": "OCI conceptual fixtures: image manifest, index, descriptor/blob; verify hash raw bytes.",
+    "body": "Planning ID: `TF-101`\n\nMilestone: **M1**\n\n## Task\nOCI conceptual fixtures: image manifest, index, descriptor/blob; verify hash raw bytes.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-102",
+    "milestone": "M1",
+    "title": "HTTPX registry transport: GET/HEAD, Accept headers, bearer auth challenge, timeouts, bounds and error taxonomy.",
+    "body": "Planning ID: `TF-102`\n\nMilestone: **M1**\n\n## Task\nHTTPX registry transport: GET/HEAD, Accept headers, bearer auth challenge, timeouts, bounds and error taxonomy.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-103",
+    "milestone": "M1",
+    "title": "Resolve tag to digest; verify expected manifest digest; inspect media types, platform descriptors, index vs manifest.",
+    "body": "Planning ID: `TF-103`\n\nMilestone: **M1**\n\n## Task\nResolve tag to digest; verify expected manifest digest; inspect media types, platform descriptors, index vs manifest.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-104",
+    "milestone": "M1",
+    "title": "OCI 1.1 referrers API; handle unsupported API and registry differences without silently trusting fallback.",
+    "body": "Planning ID: `TF-104`\n\nMilestone: **M1**\n\n## Task\nOCI 1.1 referrers API; handle unsupported API and registry differences without silently trusting fallback.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-105",
+    "milestone": "M1",
+    "title": "CLI `inspect` JSON + human output; integration tests against temporary local registry.",
+    "body": "Planning ID: `TF-105`\n\nMilestone: **M1**\n\n## Task\nCLI `inspect` JSON + human output; integration tests against temporary local registry.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-201",
+    "milestone": "M2",
+    "title": "Small harmless sample app with pinned build dependencies and rootless image build.",
+    "body": "Planning ID: `TF-201`\n\nMilestone: **M2**\n\n## Task\nSmall harmless sample app with pinned build dependencies and rootless image build.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-202",
+    "milestone": "M2",
+    "title": "Minimal GitHub Actions publishing workflow; isolated publish privileges, immutable pinning, GHCR digest capture.",
+    "body": "Planning ID: `TF-202`\n\nMilestone: **M2**\n\n## Task\nMinimal GitHub Actions publishing workflow; isolated publish privileges, immutable pinning, GHCR digest capture.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-203",
+    "milestone": "M2",
+    "title": "Cosign keyless signing with exact authorized OIDC identity/issuer documented.",
+    "body": "Planning ID: `TF-203`\n\nMilestone: **M2**\n\n## Task\nCosign keyless signing with exact authorized OIDC identity/issuer documented.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-204",
+    "milestone": "M2",
+    "title": "Generate SPDX SBOM (Syft); connect to artifact and verify its authenticity as configured.",
+    "body": "Planning ID: `TF-204`\n\nMilestone: **M2**\n\n## Task\nGenerate SPDX SBOM (Syft); connect to artifact and verify its authenticity as configured.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-205",
+    "milestone": "M2",
+    "title": "Emit provenance using trustworthy supported builder mechanism; verify subject digest/source/builder and document assurance limits.",
+    "body": "Planning ID: `TF-205`\n\nMilestone: **M2**\n\n## Task\nEmit provenance using trustworthy supported builder mechanism; verify subject digest/source/builder and document assurance limits.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-301",
+    "milestone": "M3",
+    "title": "Trusted Cosign verification adapter, strict errors and parsed authenticated claims.",
+    "body": "Planning ID: `TF-301`\n\nMilestone: **M3**\n\n## Task\nTrusted Cosign verification adapter, strict errors and parsed authenticated claims.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-302",
+    "milestone": "M3",
+    "title": "Provenance normalization and subject/source/workflow/builder matching.",
+    "body": "Planning ID: `TF-302`\n\nMilestone: **M3**\n\n## Task\nProvenance normalization and subject/source/workflow/builder matching.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-303",
+    "milestone": "M3",
+    "title": "OPA development/production rules with explicit DENY and policy fixture tests.",
+    "body": "Planning ID: `TF-303`\n\nMilestone: **M3**\n\n## Task\nOPA development/production rules with explicit DENY and policy fixture tests.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-304",
+    "milestone": "M3",
+    "title": "CLI verify/explain with canonical JSON decision report, diagnostic reason codes, tool/policy versions.",
+    "body": "Planning ID: `TF-304`\n\nMilestone: **M3**\n\n## Task\nCLI verify/explain with canonical JSON decision report, diagnostic reason codes, tool/policy versions.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-305",
+    "milestone": "M3",
+    "title": "End-to-end release tests (wrong signer, altered digest, missing evidence, broken attestation); publish v0.1.0 after review.",
+    "body": "Planning ID: `TF-305`\n\nMilestone: **M3**\n\n## Task\nEnd-to-end release tests (wrong signer, altered digest, missing evidence, broken attestation); publish v0.1.0 after review.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-401",
+    "milestone": "M4",
+    "title": "Scenario harness with expected decision matrix and fixture fixtures.",
+    "body": "Planning ID: `TF-401`\n\nMilestone: **M4**\n\n## Task\nScenario harness with expected decision matrix and fixture fixtures.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-402",
+    "milestone": "M4",
+    "title": "Tag substitution, artifact mismatch, unsigned image, unauthorized signer/workflow, unauthenticated claims, missing SBOM/provenance.",
+    "body": "Planning ID: `TF-402`\n\nMilestone: **M4**\n\n## Task\nTag substitution, artifact mismatch, unsigned image, unauthorized signer/workflow, unauthenticated claims, missing SBOM/provenance.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-403",
+    "milestone": "M4",
+    "title": "Malformed registry metadata, oversized responses, bogus media types, revoked/denied digest by policy, TOCTOU test.",
+    "body": "Planning ID: `TF-403`\n\nMilestone: **M4**\n\n## Task\nMalformed registry metadata, oversized responses, bogus media types, revoked/denied digest by policy, TOCTOU test.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-404",
+    "milestone": "M4",
+    "title": "Evidence report and documented false confidence / residual risks; publish v0.2.0.",
+    "body": "Planning ID: `TF-404`\n\nMilestone: **M4**\n\n## Task\nEvidence report and documented false confidence / residual risks; publish v0.2.0.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-501",
+    "milestone": "M5",
+    "title": "KVM/libvirt Fedora preflight and disposable bootc VM setup; storage and SELinux assessment.",
+    "body": "Planning ID: `TF-501`\n\nMilestone: **M5**\n\n## Task\nKVM/libvirt Fedora preflight and disposable bootc VM setup; storage and SELinux assessment.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-502",
+    "milestone": "M5",
+    "title": "Build and stage verified bootc OCI image; configure explicit image trust policy.",
+    "body": "Planning ID: `TF-502`\n\nMilestone: **M5**\n\n## Task\nBuild and stage verified bootc OCI image; configure explicit image trust policy.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-503",
+    "milestone": "M5",
+    "title": "Enforce digest-locked update and validation by OS pull mechanism, not CLI-only precheck.",
+    "body": "Planning ID: `TF-503`\n\nMilestone: **M5**\n\n## Task\nEnforce digest-locked update and validation by OS pull mechanism, not CLI-only precheck.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  },
+  {
+    "id": "TF-504",
+    "milestone": "M5",
+    "title": "Controlled failed upgrade, rollback, audit and published reproducible demo; publish v0.3.0.",
+    "body": "Planning ID: `TF-504`\n\nMilestone: **M5**\n\n## Task\nControlled failed upgrade, rollback, audit and published reproducible demo; publish v0.3.0.\n\n## Acceptance criteria\nImplement per milestone gate and Definition of Done in `docs/BACKLOG.md`.\n\n## Requirements\n- Follow `AGENTS.md` and accepted ADRs.\n- Include reproducible test evidence and security-negative cases where applicable.\n- Document changes and unresolved risks.\n"
+  }
+]
