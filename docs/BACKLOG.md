@@ -1,5 +1,7 @@
 # Initial backlog — TrustForge
-Proposed GitHub issues; issue identifiers TF-* are planning IDs, not existing GitHub issue numbers.
+M0–M5 and all 28 issues have been created on GitHub. Identifiers TF-* remain stable planning IDs, distinct from GitHub numbers; see the [verified mapping](ISSUE_MAP.md). `docs/issues.json` preserves the original bootstrap catalogue; live GitHub issues carry subsequent scope refinements.
+
+First operational task: [TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3), read-only preflight first. TF-001 and TF-002 remain open for bootstrap gaps and review; publication alone does not complete M0.
 
 ## M0 — Foundation (Gate: lint/type/tests green; documentation and reproducible bootstrap)
 - TF-001: Initialize public Apache-2.0 repo, README, CODEOWNERS optional, CONTRIBUTING, .gitignore, security reporting guidance. Acceptance: clean clone documented; no secrets.
