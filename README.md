@@ -62,4 +62,6 @@ Check host Fedora edition/version, Distrobox and Podman availability, rootless n
 - https://bootc.dev/
 
 ## Start here after publication
+For the current TF-003 proposal, read the [development environment contract](docs/DEVELOPMENT_ENVIRONMENT.md). The canonical definition is in [distrobox-stack PR #18](https://github.com/jnbntc/distrobox-stack/pull/18); no duplicate environment is defined here. Both integration PRs require architectural review before any build, publication or deployment.
+
 Read [project status](docs/project-status.md) and the [bootstrap reconciliation](docs/BOOTSTRAP.md). The first operational task is [TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3), beginning with the [read-only Fedora Atomic audit](docs/FEDORA_ATOMIC_PREFLIGHT.md). Container creation and functional runtime checks require a separately approved scope. Tool versions and Python 3.13 remain proposals pending validation. The Apache-2.0 license file is still missing under [TF-001 / #1](https://github.com/jnbntc/trustforge/issues/1).

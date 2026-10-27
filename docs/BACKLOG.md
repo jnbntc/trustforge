@@ -6,7 +6,7 @@ First operational task: [TF-003 / #3](https://github.com/jnbntc/trustforge/issue
 ## M0 — Foundation (Gate: lint/type/tests green; documentation and reproducible bootstrap)
 - TF-001: Initialize public Apache-2.0 repo, README, CODEOWNERS optional, CONTRIBUTING, .gitignore, security reporting guidance. Acceptance: clean clone documented; no secrets.
 - TF-002: `AGENTS.md`, issue/PR templates, ADR framework, project-status and roadmap. Acceptance: Codex has explicit scope and delivery contract.
-- TF-003: Dedicated Distrobox bootstrap and host preflight read-only checks. Acceptance: reproducible on Fedora Atomic; versions recorded; no host mutation without approval.
+- TF-003: Dedicated Distrobox bootstrap and host preflight read-only checks. Canonical environment proposed in distrobox-stack; see [consumer contract](DEVELOPMENT_ENVIRONMENT.md) and ADR-013. Acceptance: recorded versions/digests, real verification and reproducibility evidence, explicit review of Distrobox integration/privileges, scoped rollback and no host mutation without approval. Static documentation/PRs alone do not complete this issue.
 - TF-004: Python src-layout with uv, Typer, pytest, Ruff, mypy. Acceptance: CLI `--help`, tests, lint, type-check in local environment and CI.
 - TF-005: Hardened minimal CI and branch protection instructions. Acceptance: minimal permissions; untrusted PRs do not receive publish/sign privileges.
 

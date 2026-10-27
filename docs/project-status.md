@@ -1,24 +1,28 @@
 # Project status — 2026-10-27
 
-Phase: Architecture Baseline v1.0 accepted as design; M0 Foundation in progress.
-Repository: public [jnbntc/trustforge](https://github.com/jnbntc/trustforge), published.
-Inspection base: `835347569b01c169c9c2fbca9cda4b7f1266d643`.
-Issues: 28 created, all open at inspection; six milestones M0–M5. See [mapping](ISSUE_MAP.md).
-Runtime environment: dedicated `trustforge-dev` planned; host and existing containers not audited here.
-Application code: NOT STARTED. CI: NOT CONFIGURED. Releases: NONE (GitHub releases API returned an empty list at inspection).
+Phase: Architecture Baseline v1.0 accepted; M0 Foundation in progress.
+Repository: public jnbntc/trustforge. PR #29 merged; bootstrap documentation reconciliation integrated.
+Current task: TF-003 / #3, draft integration with distrobox-stack. Issue remains open.
 
-## Current documentation proposal
-TF-002 / #2: reconcile bootstrap status and prepare the read-only TF-003 handoff.
-The ADR index contains 12 accepted design decisions, with environment validation pending; expanded ADR files do not yet exist. No baseline decision is changed.
+## Proposed environment
+Canonical definition: [distrobox-stack PR #18](https://github.com/jnbntc/distrobox-stack/pull/18), source commit `44851ec911ebc0eabba88eb18c53cb4849229754`.
+See [consumer contract and acceptance criteria](DEVELOPMENT_ENVIRONMENT.md).
+Environment, Containerfile, manifest template and tool lock live only in distrobox-stack. TrustForge has no duplicate definition.
+[ADR-013](adr/013-distrobox-stack-workspace.md) is proposed for review; the 12 baseline decisions remain accepted design decisions.
 
-## Next operational task
-[TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3): execute only the read-only phase in [Fedora Atomic preflight](FEDORA_ATOMIC_PREFLIGHT.md) on the actual host, produce a private evidence report and a sanitized summary, then present a concrete Distrobox plan for approval.
-This proposal prepares instructions; it has NOT executed the host audit and does NOT authorize container creation.
+## Evidence and boundaries
+- Host preflight facts were provided by the user; this executor did not re-audit the real host or publish raw host evidence.
+- Verified public source index/manifest digests for Fedora Toolbox 44 and uv; checked Python source metadata and resolved a hashed tool lock. No layers/interpreter/tool installation.
+- Six offline workspace tests passed, plus static syntax/link/trigger/permission/consistency checks. No build, runtime, publication, deployment or reproducibility result.
+- Distrobox 1.8.2.5 implicit privileged/label=disable and shared HOME/runtime require architectural review before deployment.
+- Final image digest, authenticated SBOM/signature/provenance, RPM snapshot and predeployment verification gate remain pending.
+- Existing workspace source definitions/orchestration/workflows were preserved. No host configurations or containers changed.
 
-## Remaining gates and blockers
-- TF-001 / #1: add the planned Apache-2.0 LICENSE, verify clean clone and finish review.
-- TF-002 / #2: documentation reconciliation pending PR review/merge; individual ADR expansion can be scoped separately without changing accepted decisions.
-- TF-003 / #3: host edition/version, tool availability, storage, SELinux and static rootless prerequisites unknown. Runtime behavior and networking remain untested until separately authorized.
-- TF-004 / #4: Python src layout, selected/pinned toolchain, tests, lint and type checks pending.
-- TF-005 / #5: hardened CI and protection instructions pending; branch API reported main unprotected. Full rulesets and private reporting settings unverified.
-- KVM/libvirt/bootc remain deferred to M5. No installation, host configuration or runtime change is part of this proposal.
+## Next steps and remaining gates
+Review the two draft PRs and ADR-013. No automatic merge or deployment; separately authorize build/publication/testing and resolve the Distrobox integration boundary.
+TF-001 / #1: planned LICENSE and clean-clone completion review pending.
+TF-002 / #2: bootstrap reconciliation PR merged; issue completion review independent.
+TF-003 / #3: implementation proposal prepared; real environment creation, verification and reproducibility remain pending.
+TF-004 / #4: application src layout, dependency lock, lint/type/tests pending; workspace tools are not application dependencies.
+TF-005 / #5: application CI and protection work pending. No repository permissions changed.
+Application code: NOT STARTED. CI in TrustForge: NOT CONFIGURED. KVM/libvirt/bootc remain deferred to M5.

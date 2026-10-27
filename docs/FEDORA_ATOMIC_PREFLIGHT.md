@@ -5,6 +5,8 @@ Estado de este documento: instrucciones preparadas; auditoría NO ejecutada.
 No cierra TF-003: la creación reproducible de Distrobox y la validación funcional quedan pendientes.
 
 ## Objetivo y límites
+Actualización TF-003: el usuario aportó datos del preflight para planificar la [integración con distrobox-stack](DEVELOPMENT_ENVIRONMENT.md). Esta guía sigue siendo solo la fase A de lectura; no habilita build, publicación, inicialización ni creación. La definición canónica propuesta y las aprobaciones pendientes están en el contrato consumidor; no repetir la instalación dentro de este repositorio.
+
 Fase A: identificar el Fedora real y reunir prerrequisitos estáticos para proponer un entorno `trustforge-dev`.
 Fase B: crear y validar ese entorno únicamente después de aprobar un plan concreto.
 La aprobación del repositorio, esta guía o una PR de documentación no autoriza la fase B.
