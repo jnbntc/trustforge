@@ -49,6 +49,7 @@ include = [
   "/tests",
   "/docs/PYTHON_DEVELOPMENT.md",
   "/docs/OCI_EXPLORER.md",
+  "/docs/M1_INTEROPERABILITY.md",
   "/docs/OCI_MODELS.md",
   "/pyproject.toml",
   "/uv.lock",
