@@ -50,6 +50,7 @@ include = [
   "/docs/PYTHON_DEVELOPMENT.md",
   "/docs/OCI_EXPLORER.md",
   "/docs/OCI_HEAD.md",
+  "/docs/OCI_REFERRERS.md",
   "/docs/M1_INTEROPERABILITY.md",
   "/docs/OCI_MODELS.md",
   "/pyproject.toml",

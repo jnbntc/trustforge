@@ -10,6 +10,7 @@ from trustforge.oci.client import PlatformInspection, inspect_reference
 from trustforge.oci.errors import OciError
 from trustforge.oci.head import head_reference
 from trustforge.oci.models import Descriptor, ImageIndex
+from trustforge.oci.referrers import list_referrers
 
 app = typer.Typer(
     help="Read-only OCI metadata inspection.", no_args_is_help=True, add_completion=False
@@ -127,3 +128,40 @@ def head_command(
     console.print(
         "HEAD headers only; content integrity, authenticity and deployment are not verified."
     )
+
+
+@app.command("referrers")
+def referrers_command(
+    reference: Annotated[str, typer.Argument(help="Subject reference by tag or digest.")],
+    json_output: Annotated[
+        bool, typer.Option("--json", help="Emit registry referrer claims.")
+    ] = False,
+    artifact_type: Annotated[
+        str | None, typer.Option("--artifact-type", help="Filter by exact artifact media type.")
+    ] = None,
+) -> None:
+    """Discover registry-declared referrers without downloading their payloads."""
+    try:
+        result = list_referrers(reference, artifact_type=artifact_type)
+    except OciError as error:
+        operation_error(error, json_output)
+        return
+    if json_output:
+        typer.echo(result.model_dump_json(by_alias=True))
+        return
+    console = Console(highlight=False)
+    console.print(f"Subject digest: {result.subject_digest}", markup=False)
+    console.print(f"List source: {result.source}; status: {result.status}", markup=False)
+    table = Table(title="Registry-declared referrers (payloads not fetched)")
+    for name in ("Artifact type", "Media type", "Digest", "Bytes", "Annotations"):
+        table.add_column(name)
+    for item in result.referrers:
+        table.add_row(
+            item.artifact_type or "unspecified",
+            item.media_type,
+            item.digest,
+            str(item.size),
+            str(len(item.annotations)),
+        )
+    console.print(table)
+    console.print("Registry claims only; subject associations and authenticity are not verified.")
