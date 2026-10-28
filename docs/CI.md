@@ -1,6 +1,6 @@
 # Python CI — TF-005
 
-The draft .github/workflows/python.yml is based on the TF-004 package branch because main has no package to test yet. It adds only this workflow and this document. Review TF-004 first, merge it, rebase/retarget this draft onto main and require a fresh green run before integration.
+The .github/workflows/python.yml change is rebased onto main after Apache-2.0 license PR #32 (7cde9a63ee7fe9b90d79545f6dd2b79613832969) and TF-004 package PR #33 (af83598dceef0ee7660f73eb199071bf9fa3196f) were integrated by squash. PR #34 targets main and changes only this workflow and this document. Require a fresh green run on the rebased head before integration.
 
 Stable required-check candidate: **Python 3.13 checks**. Every pull request runs it, including documentation PRs; pushes to main also run it. There is no path filter that could leave the required result pending. All pytest/lint/format/type/lock/distribution checks share this job, so success means all steps passed. Register this exact name only after seeing a real successful GitHub Actions run.
 
