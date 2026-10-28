@@ -1,5 +1,5 @@
 # TrustForge — Architecture Baseline v1.0
-Date: 2026-10-27. Status: accepted scope and design baseline; implementation NOT started.
+Date: 2026-10-27. Status: accepted scope and design baseline; M0 Python foundation proposed for review; later implementation NOT started.
 
 ## Mission
 Educational, reproducible OCI software supply-chain verification and verified-update laboratory. First deliverable: a Python CLI that inspects OCI artifacts, verifies authenticated evidence, applies explicit admission policy, and exports audit reports.
@@ -62,6 +62,16 @@ Check host Fedora edition/version, Distrobox and Podman availability, rootless n
 - https://bootc.dev/
 
 ## Start here after publication
-For the current TF-003 proposal, read the [development environment contract](docs/DEVELOPMENT_ENVIRONMENT.md). The canonical definition is in [distrobox-stack PR #18](https://github.com/jnbntc/distrobox-stack/pull/18); no duplicate environment is defined here. Both integration PRs require architectural review before any build, publication or deployment.
+For the current TF-003 proposal, read the [development environment contract](docs/DEVELOPMENT_ENVIRONMENT.md). The canonical definition is in [distrobox-stack PR #18](https://github.com/jnbntc/distrobox-stack/pull/18); no duplicate environment is defined here. Both integration PRs were merged as preparation only; build, publication and deployment still require separate authorization.
 
-Read [project status](docs/project-status.md) and the [bootstrap reconciliation](docs/BOOTSTRAP.md). The first operational task is [TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3), beginning with the [read-only Fedora Atomic audit](docs/FEDORA_ATOMIC_PREFLIGHT.md). Container creation and functional runtime checks require a separately approved scope. Tool versions and Python 3.13 remain proposals pending validation. The Apache-2.0 license file is still missing under [TF-001 / #1](https://github.com/jnbntc/trustforge/issues/1).
+Read [project status](docs/project-status.md) and the [bootstrap reconciliation](docs/BOOTSTRAP.md). The first operational task is [TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3), beginning with the [read-only Fedora Atomic audit](docs/FEDORA_ATOMIC_PREFLIGHT.md). Container creation and functional runtime checks require a separately approved scope. Python 3.13 is the application baseline. License completion remains tracked under [TF-001 / #1](https://github.com/jnbntc/trustforge/issues/1).
+
+## M0 Python CLI
+The foundation package adds only help, version and read-only development diagnostics:
+```bash
+uv sync --locked
+uv run --no-sync trustforge --help
+uv run --no-sync trustforge version
+uv run --no-sync trustforge doctor --json
+```
+Use an existing Python 3.13 installation; dependencies stay in .venv. See [Python development](docs/PYTHON_DEVELOPMENT.md) for installation effects, exit codes, tests and wheel/sdist validation. No OCI, cryptography, policy or container operations are implemented by this CLI.
