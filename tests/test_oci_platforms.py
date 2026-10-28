@@ -6,6 +6,7 @@ from typing import Any
 
 import httpx
 import pytest
+from rich.text import Text
 from typer.testing import CliRunner
 
 from trustforge.cli import app
@@ -261,9 +262,16 @@ def test_platform_option_requires_value() -> None:
     assert result.exit_code == 2 and "requires an argument" in result.stderr
 
 
-def test_subcommand_help_renders_platform_option() -> None:
+@pytest.mark.parametrize("force_color", [False, True])
+def test_subcommand_help_renders_platform_option(
+    monkeypatch: pytest.MonkeyPatch, force_color: bool
+) -> None:
+    if force_color:
+        monkeypatch.setenv("FORCE_COLOR", "1")
+    else:
+        monkeypatch.delenv("FORCE_COLOR", raising=False)
     result = CliRunner().invoke(app, ["oci", "inspect", "--help"])
-    assert result.exit_code == 0 and "--platform" in result.stdout
+    assert result.exit_code == 0 and "--platform" in Text.from_ansi(result.stdout).plain
     assert "Traceback" not in result.output
 
 
