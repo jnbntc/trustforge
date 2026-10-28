@@ -3,7 +3,7 @@
 M0 software foundation is integrated; M0 as a whole is NOT complete. TF-003 operational acceptance and effective GitHub protections remain pending. All issues are left open for owner decisions.
 
 ## Confirmed integrated state
-TrustForge main after this sprint: 51e46f9d8fce61218abdcf4841453660bfd051dd. License #32 (7cde9a63ee7fe9b90d79545f6dd2b79613832969), package #33 (af83598dceef0ee7660f73eb199071bf9fa3196f) and CI #34 (722d24e99e534196f17eb6eda0c91b325315b5e6) were merged by the owner. [Post-merge CI](https://github.com/jnbntc/trustforge/actions/runs/40682933075) passed Python 3.13 tests/lint/types/lock/distribution/install checks.
+Current TrustForge main: 89f3fd817659b2aef800dcd4dc9289f0d0724aba (platform selection #37 integrated). Initial inspector checkpoint: 51e46f9d8fce61218abdcf4841453660bfd051dd. License #32 (7cde9a63ee7fe9b90d79545f6dd2b79613832969), package #33 (af83598dceef0ee7660f73eb199071bf9fa3196f) and CI #34 (722d24e99e534196f17eb6eda0c91b325315b5e6) were merged by the owner. [Post-merge CI](https://github.com/jnbntc/trustforge/actions/runs/40682933075) passed Python 3.13 tests/lint/types/lock/distribution/install checks.
 
 Canonical workspace: distrobox-stack main 541115eecce9e72bd4989ad5ac1c28f14a1a0c59, merged via #18; TrustForge #30 integrated consumer docs/ADR-013. Trusted development only; separate M4 boundary. No OCI build, final signed image, real crypto verification, runtime or reproducibility result follows from these merges.
 
@@ -27,4 +27,4 @@ TF-103 platform selection #37 is now integrated via squash 89f3fd817659b2aef800d
 
 New TF-102 draft: [HEAD header observations](OCI_HEAD.md), independently based on the post-#37 main. HEAD claims are never labelled content integrity. No new PR is authorized for merge. Unit/negative CI remains offline; manual public interoperability is separately labelled.
 
-M1 remains partial: TF-102 HEAD, TF-104 referrers and TF-105 temporary-local-registry integration remain pending. TF-003 is open and does not block this authorized metadata sprint. No issue closure, Settings/host/container changes, image build, publication, signing or deployment occurred. Only existing #31/#35/#36 were authorized for integration; do not merge the new platform draft without a new review/authorization.
+M1 remains partial: TF-102 HEAD, TF-104 referrers and TF-105 temporary-local-registry integration remain pending. TF-003 is open and does not block this authorized metadata sprint. No issue closure, Settings/host/container changes, image build, publication, signing or deployment occurred. The previous sprint integrated #31/#35/#36; the current sprint separately authorized and integrated #37. HEAD/Referrers drafts remain unmerged and require a new integration authorization.
