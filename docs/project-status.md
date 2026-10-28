@@ -6,7 +6,7 @@ Current work: architecture corrections on existing draft [distrobox-stack #18](h
 ## Revised architecture
 [ADR-013](adr/013-distrobox-stack-workspace.md): revised proposal for review. The user's architecture review accepts Distrobox only for trusted development; explicit host integration and rootless/privileged/SELinux limits remain documented.
 M4 adversarial work uses a separate restricted runtime or disposable VM according to risk; not implemented here.
-[Consumer contract](DEVELOPMENT_ENVIRONMENT.md) references one canonical definition in distrobox-stack commit `2998e59790416c491d65fced798554a97c3e3b02`; no duplicate environment recipe, lock or policy here.
+[Consumer contract](DEVELOPMENT_ENVIRONMENT.md) references one canonical definition in distrobox-stack commit `204add3b2ec88825379e345e19d7d0c4e5dbaabb`; no duplicate environment recipe, lock or policy here.
 
 ## Prepared trust bootstrap
 Independent pinned Cosign verifier outside the target workspace removes the dependency on M3 Gate. It checks exact signer/issuer/workflow/source, approved roots, image digest and authenticated SBOM/provenance subjects/parameters/materials.
@@ -19,3 +19,6 @@ Trust policy/source commit/roots must be approved externally; successful verific
 RPM repositories and Distrobox initialization remain mutable; inventory is not a snapshot.
 Existing workspace definitions and pre-existing pipelines preserved. No host/storage/SELinux/service/container changes.
 TF-001 license/clean-clone review, TF-002 completion review, TF-004 application layout/dependencies/tests and TF-005 application CI/protection remain separate work. Application code not started; no M4 implementation.
+
+## Dedicated image-signature regression
+The bootstrap now requires the native Cosign 3.1.4 image-signature predicate and signed repository annotation, separately from SPDX/provenance. The prior generic critical.* projection could satisfy the old parser without dedicated-signature evidence in offline mocks. Regression: prior VERIFIED, corrected DENY. 27 static/negative tests pass; no real Cosign/GHCR cryptographic result. Scope and ADR-013 unchanged; consumer references updated to the canonical corrected commit. Human deployment approval remains mandatory.

@@ -32,5 +32,5 @@ Los RPM y la inicialización Distrobox siguen móviles: inventario no equivale a
 
 ## Alternativas y revisión
 Definiciones duplicadas se rechazan por divergencia. Incorporación a operaciones masivas se rechaza por el alcance sobre otros workspaces. Un runtime aislado queda reservado al diseño separado de M4, no como reemplazo silencioso del workspace confiable.
-[Contrato consumidor](../DEVELOPMENT_ENVIRONMENT.md), [definición y bootstrap canónicos](https://github.com/jnbntc/distrobox-stack/tree/2998e59790416c491d65fced798554a97c3e3b02/workspaces/trustforge-dev) y comentarios de revisión en [PR #18](https://github.com/jnbntc/distrobox-stack/pull/18) / [PR #30](https://github.com/jnbntc/trustforge/pull/30).
+[Contrato consumidor](../DEVELOPMENT_ENVIRONMENT.md), [definición y bootstrap canónicos](https://github.com/jnbntc/distrobox-stack/tree/204add3b2ec88825379e345e19d7d0c4e5dbaabb/workspaces/trustforge-dev) y comentarios de revisión en [PR #18](https://github.com/jnbntc/distrobox-stack/pull/18) / [PR #30](https://github.com/jnbntc/trustforge/pull/30).
 TF-003 abierta; PRs en borrador, pendientes de nueva revisión.
