@@ -1,0 +1,91 @@
+{
+  "name": "Python foundation",
+  "on": {
+    "pull_request": {},
+    "push": {
+      "branches": [
+        "main"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "concurrency": {
+    "group": "python-${{ github.event.pull_request.number || github.ref }}",
+    "cancel-in-progress": true
+  },
+  "jobs": {
+    "quality": {
+      "name": "Python 3.13 checks",
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 15,
+      "permissions": {
+        "contents": "read"
+      },
+      "env": {
+        "UV_PYTHON_DOWNLOADS": "never",
+        "UV_CACHE_DIR": "${{ runner.temp }}/trustforge-uv-cache",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "defaults": {
+        "run": {
+          "shell": "bash"
+        }
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "with": {
+            "persist-credentials": false
+          }
+        },
+        {
+          "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+          "with": {
+            "python-version": "3.13"
+          }
+        },
+        {
+          "uses": "astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e",
+          "with": {
+            "version": "0.13.5",
+            "enable-cache": false
+          }
+        },
+        {
+          "name": "Validate lockfile",
+          "run": "uv lock --check"
+        },
+        {
+          "name": "Install locked development environment",
+          "run": "uv sync --locked"
+        },
+        {
+          "name": "Tests",
+          "run": "uv run --no-sync pytest"
+        },
+        {
+          "name": "Ruff lint",
+          "run": "uv run --no-sync ruff check ."
+        },
+        {
+          "name": "Ruff format",
+          "run": "uv run --no-sync ruff format --check ."
+        },
+        {
+          "name": "Type checking",
+          "run": "uv run --no-sync mypy"
+        },
+        {
+          "name": "Build Python distributions only",
+          "run": "uv build --python .venv/bin/python --no-build-isolation\nuv build dist/*.tar.gz --wheel --python \"$PWD/.venv/bin/python\" --no-build-isolation --out-dir wheel-from-sdist"
+        },
+        {
+          "name": "Install rebuilt wheel into a fresh environment",
+          "run": "set -euo pipefail\nwheel_env=\"$RUNNER_TEMP/trustforge-wheel\"\nuv venv --python 3.13 \"$wheel_env\"\nuv export --locked --no-dev --no-emit-project --format requirements-txt --output-file \"$RUNNER_TEMP/trustforge-app.txt\"\nuv pip install --python \"$wheel_env/bin/python\" --require-hashes -r \"$RUNNER_TEMP/trustforge-app.txt\"\nuv pip install --python \"$wheel_env/bin/python\" --no-deps wheel-from-sdist/*.whl\nuv pip check --python \"$wheel_env/bin/python\"\ncd \"$RUNNER_TEMP\"\n\"$wheel_env/bin/trustforge\" --help\n\"$wheel_env/bin/trustforge\" version\n\"$wheel_env/bin/trustforge\" doctor --json\n\"$wheel_env/bin/python\" -m trustforge version\nif \"$wheel_env/bin/trustforge\" unknown; then\n  echo \"Invalid command unexpectedly succeeded\" >&2\n  exit 1\nelse\n  test \"$?\" -eq 2\nfi"
+        }
+      ]
+    }
+  }
+}
