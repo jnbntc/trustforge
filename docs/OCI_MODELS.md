@@ -1,6 +1,6 @@
 # OCI primitives — TF-101 / start of TF-103
 
-Pure parsing/models only, without network, runtime or Gate M3. The companion TF-102 transport/CLI draft depends on this draft. Neither completes all of M1.
+Pure parsing/models only, without network, runtime or Gate M3. TF-101 (#35) and its companion TF-102 transport/CLI (#36) are integrated; neither completes all of M1.
 
 ## Supported references
 Names follow the Distribution path/tag grammar with Docker Hub normalization:
@@ -17,7 +17,7 @@ parse_manifest accepts OCI image manifests/indices and Docker schema-2 manifests
 
 The digest is computed over exact received UTF-8 JSON bytes, before parsing; it is compared independently with the requested digest and Docker-Content-Digest when supplied. An absent header is recorded, not replaced by invented server evidence. Duplicate JSON keys, non-finite values, malformed structures and mismatches deny. Pure parsing also caps metadata at 4 MiB, layers at 4096 and index entries at 1024.
 
-An index digest identifies the index bytes, not a child architecture manifest. Platform data comes from index descriptors; a standalone manifest's platform remains unknown until its config is read. This draft does not fetch config, layers, child manifests, subject or external descriptor URLs.
+An index digest identifies the index bytes, not a child architecture manifest. Platform data comes from index descriptors; a standalone manifest's platform remains unknown. This parser fetches nothing. The [inspector](OCI_EXPLORER.md) may explicitly fetch one selected child manifest; config/layers/subject/external descriptor URLs remain untouched.
 
 Integrity is not authenticity: no signature, source/builder approval, vulnerability assessment or deployment permission is implied.
 
@@ -29,4 +29,4 @@ Small manifest/index JSON files use illustrative descriptor digests and sizes, n
 - [OCI Distribution: manifests and digest/header rules](https://github.com/opencontainers/distribution-spec/blob/v1.1.1/spec.md#pulling-manifests).
 - [OCI index and platform descriptors](https://specs.opencontainers.org/image-spec/image-index/?v=v1.1.1), [descriptors](https://specs.opencontainers.org/image-spec/descriptor/).
 
-TF-101 fixtures/primitives and part of TF-103 are implemented for review. Referrers TF-104 and real-registry/local-registry integration are not implemented or claimed.
+TF-101 fixtures/primitives and initial TF-103 digest handling are integrated. [Separate manual real-registry observations](M1_INTEROPERABILITY.md) do not turn fixtures into authenticated images. TF-104 and local-registry integration remain pending.

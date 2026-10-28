@@ -121,7 +121,6 @@ def test_error_contract_and_return_codes(
         ["oci", "inspect"],
         ["oci", "inspect", REFERENCE, "--insecure"],
         ["oci", "inspect", REFERENCE, "--credentials", "secret"],
-        ["oci", "inspect", REFERENCE, "--platform", "linux/amd64"],
     ],
 )
 def test_unsupported_operations_and_arguments(arguments: list[str]) -> None:

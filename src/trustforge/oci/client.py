@@ -9,7 +9,15 @@ from pydantic import ConfigDict
 
 from trustforge.oci.auth import parse_challenge, parse_token
 from trustforge.oci.errors import OciError
-from trustforge.oci.models import MAX_MANIFEST_BYTES, MEDIA_TYPES, ParsedManifest, parse_manifest
+from trustforge.oci.models import (
+    MAX_MANIFEST_BYTES,
+    MEDIA_TYPES,
+    Descriptor,
+    ImageIndex,
+    ParsedManifest,
+    parse_manifest,
+)
+from trustforge.oci.platforms import PlatformSelection, parse_platform, select_descriptor
 from trustforge.oci.reference import ImageReference, parse_reference
 
 MAX_TOKEN_BYTES = 64 * 1024
@@ -21,6 +29,10 @@ class Inspection(ParsedManifest):
     schema_version: Literal[1] = 1
     reference: str
     resolved_reference: str
+
+
+class PlatformInspection(Inspection):
+    selection: PlatformSelection
 
 
 @dataclass(frozen=True)
@@ -126,15 +138,52 @@ def anonymous_token(
     return parse_token(token_reply.body)
 
 
+def fetch_manifest(
+    client: httpx.Client,
+    ref: ImageReference,
+    deadline: float,
+    *,
+    descriptor: Descriptor | None = None,
+) -> ParsedManifest:
+    """Bound each metadata GET and its independent anonymous auth retry."""
+    headers = {"Accept": ", ".join(MEDIA_TYPES), "Accept-Encoding": "identity"}
+    limit = min(MAX_MANIFEST_BYTES, descriptor.size) if descriptor else MAX_MANIFEST_BYTES
+    reply = get_bounded(client, ref.manifest_url, deadline=deadline, limit=limit, headers=headers)
+    if reply.status == 401:
+        token = anonymous_token(client, reply, ref, deadline)
+        # Never share a token with a realm or a descriptor-provided URL.
+        reply = get_bounded(
+            client,
+            ref.manifest_url,
+            deadline=deadline,
+            limit=limit,
+            headers={**headers, "Authorization": "Bearer " + token},
+        )
+        if reply.status == 401:
+            raise OciError("AUTH_REQUIRED", "Anonymous registry access was denied.", 4)
+    if descriptor is not None and len(reply.body) != descriptor.size:
+        raise OciError("DESCRIPTOR_SIZE_MISMATCH", "Child size differs from its index descriptor.")
+    parsed = parse_manifest(
+        reply.body,
+        reply.headers.get("content-type", ""),
+        expected_digest=ref.digest,
+        advertised_digest=reply.headers.get("docker-content-digest"),
+    )
+    if descriptor is not None and parsed.media_type != descriptor.media_type:
+        raise OciError("DESCRIPTOR_MEDIA_MISMATCH", "Child media type differs from its descriptor.")
+    return parsed
+
+
 def inspect_reference(
     value: str,
     *,
+    platform: str | None = None,
     transport: httpx.BaseTransport | None = None,
 ) -> Inspection:
-    """Fetch one manifest and at most one anonymous token, with one auth retry."""
+    """Read a root manifest and optionally one selected child; never configs/layers."""
     ref = parse_reference(value)
+    requested = parse_platform(platform) if platform is not None else None
     deadline = monotonic() + BUDGET_SECONDS
-    headers = {"Accept": ", ".join(MEDIA_TYPES), "Accept-Encoding": "identity"}
     with httpx.Client(
         transport=transport,
         trust_env=False,
@@ -143,33 +192,30 @@ def inspect_reference(
         auth=None,
         limits=httpx.Limits(max_connections=1, max_keepalive_connections=1),
     ) as client:
-        reply = get_bounded(
-            client,
-            ref.manifest_url,
-            deadline=deadline,
-            limit=MAX_MANIFEST_BYTES,
-            headers=headers,
+        parsed = fetch_manifest(client, ref, deadline)
+        result = Inspection(
+            **parsed.model_dump(),
+            reference=ref.canonical,
+            resolved_reference=ref.name + "@" + parsed.digest,
         )
-        if reply.status == 401:
-            token = anonymous_token(client, reply, ref, deadline)
-            # The token is sent only to the original validated manifest URL.
-            reply = get_bounded(
-                client,
-                ref.manifest_url,
-                deadline=deadline,
-                limit=MAX_MANIFEST_BYTES,
-                headers={**headers, "Authorization": "Bearer " + token},
+        if requested is None:
+            return result
+        if not isinstance(parsed.document, ImageIndex):
+            raise OciError(
+                "PLATFORM_UNVERIFIABLE", "A standalone manifest has no index platform descriptor."
             )
-            if reply.status == 401:
-                raise OciError("AUTH_REQUIRED", "Anonymous registry access was denied.", 4)
-    parsed = parse_manifest(
-        reply.body,
-        reply.headers.get("content-type", ""),
-        expected_digest=ref.digest,
-        advertised_digest=reply.headers.get("docker-content-digest"),
-    )
-    return Inspection(
-        **parsed.model_dump(),
-        reference=ref.canonical,
-        resolved_reference=ref.name + "@" + parsed.digest,
-    )
+        descriptor = select_descriptor(parsed.document, requested)
+        child_ref = parse_reference(ref.name + "@" + descriptor.digest)
+        child = fetch_manifest(client, child_ref, deadline, descriptor=descriptor)
+        return PlatformInspection(
+            **result.model_dump(),
+            selection=PlatformSelection(
+                requested_platform=f"{requested.os}/{requested.architecture}"
+                + (f"/{requested.variant}" if requested.variant else ""),
+                index_digest=parsed.digest,
+                manifest_digest=child.digest,
+                resolved_reference=child_ref.canonical,
+                descriptor=descriptor,
+                manifest=child,
+            ),
+        )

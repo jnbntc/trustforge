@@ -6,7 +6,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from trustforge.oci.client import inspect_reference
+from trustforge.oci.client import PlatformInspection, inspect_reference
 from trustforge.oci.errors import OciError
 from trustforge.oci.models import Descriptor, ImageIndex
 
@@ -29,10 +29,18 @@ def platform_label(descriptor: Descriptor) -> str:
 def inspect_command(
     reference: Annotated[str, typer.Argument(help="Registry reference, tag or sha256 digest.")],
     json_output: Annotated[bool, typer.Option("--json", help="Emit stable JSON metadata.")] = False,
+    platform: Annotated[
+        str | None,
+        typer.Option("--platform", help="Select os/architecture with an optional /variant."),
+    ] = None,
 ) -> None:
     """Read one manifest/index; do not download layers or execute an image."""
     try:
-        result = inspect_reference(reference)
+        result = (
+            inspect_reference(reference)
+            if platform is None
+            else inspect_reference(reference, platform=platform)
+        )
     except OciError as error:
         if json_output:
             import json
@@ -56,9 +64,14 @@ def inspect_command(
     console.print(f"Digest: {result.digest}", markup=False)
     console.print(f"Metadata bytes: {result.size_bytes}", markup=False)
     console.print(f"Resolved: {result.resolved_reference}", markup=False)
-    console.print(
-        "Platform is reported from descriptors only; config/child manifests are not fetched."
-    )
+    console.print("Platforms are index claims; configs and layers are never fetched.")
+    if isinstance(result, PlatformInspection):
+        selection = result.selection
+        console.print(f"Index digest: {selection.index_digest}", markup=False)
+        console.print(f"Selected platform: {platform_label(selection.descriptor)}", markup=False)
+        console.print(f"Child manifest digest: {selection.manifest_digest}", markup=False)
+        console.print(f"Child resolved: {selection.resolved_reference}", markup=False)
+        console.print(f"Child metadata bytes: {selection.manifest.size_bytes}", markup=False)
     table = Table(title="Observed descriptors (not fetched)")
     for name in ("Role", "Media type", "Digest", "Bytes", "Platform"):
         table.add_column(name)

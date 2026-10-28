@@ -1,5 +1,5 @@
 # TrustForge — Architecture Baseline v1.0
-Date: 2026-10-27. Status: accepted scope and design baseline; M0 Python foundation integrated; operational M0 acceptance pending. Initial M1 metadata inspection is in separate review drafts.
+Date: 2026-10-28. Status: accepted design baseline; M0 Python foundation and initial M1 metadata inspection integrated. Operational M0 acceptance remains pending. Explicit platform selection is prepared separately for review.
 
 ## Mission
 Educational, reproducible OCI software supply-chain verification and verified-update laboratory. First deliverable: a Python CLI that inspects OCI artifacts, verifies authenticated evidence, applies explicit admission policy, and exports audit reports.
@@ -42,7 +42,7 @@ Rootless Podman for container tests. Distrobox isolates userland dependencies bu
 Fedora Atomic, Distrobox, Podman/Buildah, Python 3.13 proposed, uv, Typer, Rich, Pydantic 2, HTTPX, pytest, Ruff, mypy, ORAS/Skopeo reference tooling, Cosign, Syft/SPDX JSON, Grype later, OPA/Rego, GHCR, GitHub Actions, OCI Distribution local registry, KVM/libvirt/bootc later.
 
 ## Initial CLI contracts (planned)
-- `trustforge oci inspect IMAGE[@sha256:...]` (initial M1 draft)
+- `trustforge oci inspect IMAGE[@sha256:...]` (integrated; metadata only)
 - `trustforge verify IMAGE@sha256:... --policy policies/development.rego --json-out report.json`
 - `trustforge explain report.json`
 - `trustforge lab run SCENARIO` (M4)
@@ -74,7 +74,7 @@ uv run --no-sync trustforge --help
 uv run --no-sync trustforge version
 uv run --no-sync trustforge doctor --json
 ```
-Use an existing Python 3.13 installation; dependencies stay in .venv. See [Python development](docs/PYTHON_DEVELOPMENT.md) for installation effects, exit codes, tests and wheel/sdist validation. No OCI, cryptography, policy or container operations are implemented by this CLI.
+Use an existing Python 3.13 installation; dependencies stay in .venv. See [Python development](docs/PYTHON_DEVELOPMENT.md) for installation effects, exit codes, tests and wheel/sdist validation. The [OCI inspector](docs/OCI_EXPLORER.md) reads bounded public metadata only; cryptography, policy decisions and container operations are not implemented.
 
 ## Current review state
-License #32, package #33 and CI #34 are integrated on main. [Post-merge CI](https://github.com/jnbntc/trustforge/actions/runs/40682933075) passed. [M0 acceptance](docs/M0_ACCEPTANCE.md) keeps TF-003 and effective protections pending; M0 is not declared complete. [Governance #31](https://github.com/jnbntc/trustforge/pull/31) proposes manual owner configuration. OCI metadata drafts [#35](https://github.com/jnbntc/trustforge/pull/35) and [#36](https://github.com/jnbntc/trustforge/pull/36) are separate; no OCI/runtime functionality is inferred from a merge or CI result.
+License #32, package #33, CI #34 and governance #31 are integrated. [M0 acceptance](docs/M0_ACCEPTANCE.md) keeps TF-003 and effective protections pending. OCI models [#35](https://github.com/jnbntc/trustforge/pull/35) and HTTPS/CLI [#36](https://github.com/jnbntc/trustforge/pull/36) are integrated; [post-merge CI and separate real metadata observations](docs/M1_INTEROPERABILITY.md) passed. Explicit platform selection is a new review draft. No image execution, signature verification or deployment follows from these results.
