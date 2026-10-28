@@ -1,5 +1,5 @@
 # Architecture Decision Records — TrustForge
-All decisions dated 2026-10-27; status ACCEPTED AS DESIGN BASELINE, not yet implemented or environment-validated.
+ADR-001 through ADR-012: dated 2026-10-27, ACCEPTED AS DESIGN BASELINE, not yet implemented or environment-validated.
 
 | ID | Decision | Rationale | Revisit when |
 |---|---|---|---|
@@ -15,6 +15,9 @@ All decisions dated 2026-10-27; status ACCEPTED AS DESIGN BASELINE, not yet impl
 | ADR-010 | KVM/libvirt/bootc deferred to M5 | Avoid coupling OCI foundation with OS virtualization | M5 hardware or policy limitations |
 | ADR-011 | No Kubernetes, UI, DB, LLM, GPU in v0.1 | Security guarantees first | New user-facing need |
 | ADR-012 | Python 3.13 proposed with uv; pinned external tool versions at M0 | Reproducible toolchain with dependency compatibility check | Tested toolchain suggests better supported version |
+
+## Proposed for review
+- [ADR-013 — Trusted workspace and independent bootstrap in distrobox-stack](013-distrobox-stack-workspace.md): REVISED PROPOSAL for review; trusted-development-only scope accepted by the user's architecture review, separate M4 boundary, Cosign bootstrap independent of Gate M3. No execution/deployment authorized.
 
 ## ADR template
 - Context and threat/constraint

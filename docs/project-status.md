@@ -1,24 +1,24 @@
 # Project status — 2026-10-27
 
-Phase: Architecture Baseline v1.0 accepted as design; M0 Foundation in progress.
-Repository: public [jnbntc/trustforge](https://github.com/jnbntc/trustforge), published.
-Inspection base: `835347569b01c169c9c2fbca9cda4b7f1266d643`.
-Issues: 28 created, all open at inspection; six milestones M0–M5. See [mapping](ISSUE_MAP.md).
-Runtime environment: dedicated `trustforge-dev` planned; host and existing containers not audited here.
-Application code: NOT STARTED. CI: NOT CONFIGURED. Releases: NONE (GitHub releases API returned an empty list at inspection).
+Phase: M0 Foundation. TF-003 / #3 remains open.
+Current work: architecture corrections on existing draft [distrobox-stack #18](https://github.com/jnbntc/distrobox-stack/pull/18) and [TrustForge #30](https://github.com/jnbntc/trustforge/pull/30). No new PRs, merges or deployment.
 
-## Current documentation proposal
-TF-002 / #2: reconcile bootstrap status and prepare the read-only TF-003 handoff.
-The ADR index contains 12 accepted design decisions, with environment validation pending; expanded ADR files do not yet exist. No baseline decision is changed.
+## Revised architecture
+[ADR-013](adr/013-distrobox-stack-workspace.md): revised proposal for review. The user's architecture review accepts Distrobox only for trusted development; explicit host integration and rootless/privileged/SELinux limits remain documented.
+M4 adversarial work uses a separate restricted runtime or disposable VM according to risk; not implemented here.
+[Consumer contract](DEVELOPMENT_ENVIRONMENT.md) references one canonical definition in distrobox-stack commit `204add3b2ec88825379e345e19d7d0c4e5dbaabb`; no duplicate environment recipe, lock or policy here.
 
-## Next operational task
-[TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3): execute only the read-only phase in [Fedora Atomic preflight](FEDORA_ATOMIC_PREFLIGHT.md) on the actual host, produce a private evidence report and a sanitized summary, then present a concrete Distrobox plan for approval.
-This proposal prepares instructions; it has NOT executed the host audit and does NOT authorize container creation.
+## Prepared trust bootstrap
+Independent pinned Cosign verifier outside the target workspace removes the dependency on M3 Gate. It checks exact signer/issuer/workflow/source, approved roots, image digest and authenticated SBOM/provenance subjects/parameters/materials.
+Future manual build/publish/sign workflow and specific offline PR checks are prepared. Policy is unapproved and real image digest/evidence do not exist as task results.
+No crypto verification or container/reproducibility result is inferred from fixture/static tests. Pins already checked for base/uv/Python/lock were preserved without needless revalidation.
 
-## Remaining gates and blockers
-- TF-001 / #1: add the planned Apache-2.0 LICENSE, verify clean clone and finish review.
-- TF-002 / #2: documentation reconciliation pending PR review/merge; individual ADR expansion can be scoped separately without changing accepted decisions.
-- TF-003 / #3: host edition/version, tool availability, storage, SELinux and static rootless prerequisites unknown. Runtime behavior and networking remain untested until separately authorized.
-- TF-004 / #4: Python src layout, selected/pinned toolchain, tests, lint and type checks pending.
-- TF-005 / #5: hardened CI and protection instructions pending; branch API reported main unprotected. Full rulesets and private reporting settings unverified.
-- KVM/libvirt/bootc remain deferred to M5. No installation, host configuration or runtime change is part of this proposal.
+## Next steps
+New review of both corrected PRs, ADR-013, proposed identity/issuer/trust roots and permissions. Then explicitly authorize build, publication/signing, real independent verification and deployment as distinct steps.
+Trust policy/source commit/roots must be approved externally; successful verification still requires new human approval before consuming that exact digest.
+RPM repositories and Distrobox initialization remain mutable; inventory is not a snapshot.
+Existing workspace definitions and pre-existing pipelines preserved. No host/storage/SELinux/service/container changes.
+TF-001 license/clean-clone review, TF-002 completion review, TF-004 application layout/dependencies/tests and TF-005 application CI/protection remain separate work. Application code not started; no M4 implementation.
+
+## Dedicated image-signature regression
+The bootstrap now requires the native Cosign 3.1.4 image-signature predicate and signed repository annotation, separately from SPDX/provenance. The prior generic critical.* projection could satisfy the old parser without dedicated-signature evidence in offline mocks. Regression: prior VERIFIED, corrected DENY. 27 static/negative tests pass; no real Cosign/GHCR cryptographic result. Scope and ADR-013 unchanged; consumer references updated to the canonical corrected commit. Human deployment approval remains mandatory.
