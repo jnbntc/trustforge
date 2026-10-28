@@ -10,7 +10,7 @@ from trustforge.oci.client import PlatformInspection, inspect_reference
 from trustforge.oci.errors import OciError
 from trustforge.oci.head import head_reference
 from trustforge.oci.models import Descriptor, ImageIndex
-from trustforge.oci.referrers import list_referrers
+from trustforge.oci.referrers import PaginatedReferrersReport, list_referrers
 
 app = typer.Typer(
     help="Read-only OCI metadata inspection.", no_args_is_help=True, add_completion=False
@@ -152,6 +152,14 @@ def referrers_command(
     console = Console(highlight=False)
     console.print(f"Subject digest: {result.subject_digest}", markup=False)
     console.print(f"List source: {result.source}; status: {result.status}", markup=False)
+    if isinstance(result, PaginatedReferrersReport):
+        summary = result.pagination
+        console.print(
+            f"Pages: {summary.pages_queried}; "
+            f"observed descriptors: {summary.observed_descriptors}; "
+            f"returned: {summary.returned_descriptors}; metadata bytes: {summary.total_size_bytes}",
+            markup=False,
+        )
     table = Table(title="Registry-declared referrers (payloads not fetched)")
     for name in ("Artifact type", "Media type", "Digest", "Bytes", "Annotations"):
         table.add_column(name)

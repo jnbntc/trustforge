@@ -155,7 +155,7 @@ def test_filter_enforced_locally_and_server_claim_validated(server_applied: bool
         ),
         ([], {"OCI-Filters-Applied": "unsupported"}, "UNEXPECTED_FILTER"),
         ([], {"OCI-Filters-Applied": "artifactType, artifactType"}, "UNEXPECTED_FILTER"),
-        ([], {"Link": '<https://evil.invalid/?token=secret>; rel="next"'}, "REFERRERS_PAGINATED"),
+        ([], {"Link": '<https://evil.invalid/?token=secret>; rel="next"'}, "INVALID_PAGE_LINK"),
         ([], {"Docker-Content-Digest": "sha256:" + "f" * 64}, "DIGEST_MISMATCH"),
         ([], {"Content-Encoding": "gzip"}, "ENCODING_REJECTED"),
         ([], {"Content-Length": str(MAX_MANIFEST_BYTES + 1)}, "RESPONSE_TOO_LARGE"),

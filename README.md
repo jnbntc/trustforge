@@ -1,5 +1,5 @@
 # TrustForge — Architecture Baseline v1.0
-Date: 2026-10-28. Status: accepted design baseline; M0 Python foundation and initial M1 metadata inspection integrated. Operational M0 acceptance remains pending. Explicit platform selection is prepared separately for review.
+Date: 2026-10-28. Status: accepted design baseline; M0 Python foundation and initial M1 metadata inspection integrated. Operational M0 acceptance remains pending. Platform selection, HEAD and Referrers are integrated; bounded Referrers pagination is prepared separately for review.
 
 ## Mission
 Educational, reproducible OCI software supply-chain verification and verified-update laboratory. First deliverable: a Python CLI that inspects OCI artifacts, verifies authenticated evidence, applies explicit admission policy, and exports audit reports.
@@ -77,4 +77,4 @@ uv run --no-sync trustforge doctor --json
 Use an existing Python 3.13 installation; dependencies stay in .venv. See [Python development](docs/PYTHON_DEVELOPMENT.md) for installation effects, exit codes, tests and wheel/sdist validation. The [OCI inspector](docs/OCI_EXPLORER.md) reads bounded public metadata only; cryptography, policy decisions and container operations are not implemented.
 
 ## Current review state
-License #32, package #33, CI #34 and governance #31 are integrated. [M0 acceptance](docs/M0_ACCEPTANCE.md) keeps TF-003 and effective protections pending. OCI models [#35](https://github.com/jnbntc/trustforge/pull/35) and HTTPS/CLI [#36](https://github.com/jnbntc/trustforge/pull/36) are integrated; [post-merge CI and separate real metadata observations](docs/M1_INTEROPERABILITY.md) passed. Explicit platform selection is a new review draft. No image execution, signature verification or deployment follows from these results.
+License #32, package #33, CI #34 and governance #31 are integrated. [M0 acceptance](docs/M0_ACCEPTANCE.md) keeps TF-003 and effective protections pending. OCI models [#35](https://github.com/jnbntc/trustforge/pull/35) and HTTPS/CLI [#36](https://github.com/jnbntc/trustforge/pull/36) are integrated; [post-merge CI and separate real metadata observations](docs/M1_INTEROPERABILITY.md) passed. Platform selection #37, HEAD #38 and Referrers #39 are integrated; bounded pagination remains a separate draft. No image execution, signature verification or deployment follows from these results.

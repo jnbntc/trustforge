@@ -3,9 +3,9 @@
 Proposal for human application, not settings already enabled. Inspected 2026-10-28.
 
 ## Observed state and eligibility
-Both repositories are public and owned by the personal account jnbntc (owner type User). Current main: TrustForge 722d24e99e534196f17eb6eda0c91b325315b5e6; stack 541115eecce9e72bd4989ad5ac1c28f14a1a0c59. Both report protected=false and no rulesets.
+Both repositories are public and owned by the personal account jnbntc (owner type User). Current main: TrustForge a1e74c922697cbcb6d46b87c71dc1607f9ea4733; stack 541115eecce9e72bd4989ad5ac1c28f14a1a0c59. Both report protected=false and no rulesets.
 
-Authenticated Settings shows: no trustforge-bootstrap-publish environment in stack; both repositories allow all actions, do not enforce global SHA pinning, require fork-workflow approval for first-time contributors, default GITHUB_TOKEN to read contents/packages, and disallow Actions creating/approving PRs.
+Authenticated Settings was refreshed in this sprint and shows no environments in either repository, including no trustforge-bootstrap-publish in stack; both repositories allow all actions, do not enforce global SHA pinning, require fork-workflow approval for first-time contributors, default GITHUB_TOKEN to read contents/packages, and disallow Actions creating/approving PRs.
 
 Public repositories on current Free/Pro plans support branch protection and environment reviewers. The exact billing/legacy plan and availability of every proposed UI control are NOT VERIFIED; stop if a required option is absent. This is a personal account: do not promise organization teams or organization-only push allowlists. No paid feature or plan upgrade is assumed.
 Sources: [protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches), [environment eligibility](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments).
@@ -26,9 +26,9 @@ Save, reopen the rule, and verify main reports protected plus the intended check
 | distrobox-stack | ShellCheck (Bash Scripts) | Exists and passed on current main; runs on all PRs |
 | distrobox-stack | Hadolint (Containerfiles) | Exists and passed on current main; runs on all PRs |
 | distrobox-stack | static | Exists, but path-filtered to trustforge workspace/workflows: do NOT require globally |
-| TrustForge | Python 3.13 checks | Integrated on main; post-merge run 40682933075 passed. Select this exact existing name |
+| TrustForge | Python 3.13 checks | Integrated on main; post-merge run 40743034646 passed. Select this exact existing name |
 
-A globally required path-filtered workflow can leave unrelated PRs pending forever. Review static for relevant stack PRs without pretending it covers all paths. Do not require build/publication/deployment as merge checks. TrustForge now runs this check on every PR and pushes to main: [post-merge PASS](https://github.com/jnbntc/trustforge/actions/runs/40682933075). Registering it as required is still an unapplied owner action.
+A globally required path-filtered workflow can leave unrelated PRs pending forever. Review static for relevant stack PRs without pretending it covers all paths. Do not require build/publication/deployment as merge checks. TrustForge now runs this check on every PR and pushes to main: [post-merge PASS](https://github.com/jnbntc/trustforge/actions/runs/40743034646). Registering it as required is still an unapplied owner action.
 
 ## 2. Review elevated workflows and token use
 Before accepting edits to .github/workflows, inspect events, checkout ref, shell interpolation, action pins, permissions, target digest and environment. Changes affecting trusted publishing source require fresh human review; a green Python check is not approval of release authority.
@@ -52,7 +52,7 @@ In distrobox-stack: Settings → Environments → New environment → trustforge
 If that separation cannot be staffed or the controls are unavailable, publication remains BLOCKED pending an explicit owner decision. TrustForge needs no matching environment. A missing environment can be created unprotected when referenced by a workflow; the YAML name alone provides no approval gate.
 [Environment configuration](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments).
 
-These controls constrain the reviewed workflow; a writer who can replace it could omit the environment. Protect main and inspect workflow edits together. Required reviewers are a human gate, not cryptographic proof of the builder.
+These controls constrain jobs that reference the reviewed environment; a writer who can replace a workflow could omit it or request write permissions elsewhere, including on a working branch. Default read-only permissions are not a maximum permission ceiling. An environment alone does not enforce approval for every possible publisher, so review trusted workflow edits and restrict write access to trusted maintainers. Existing unrelated scheduled stack publishers are not gated by this environment and were not modified. Protect main and inspect workflow edits together. Required reviewers are a human gate, not cryptographic proof of the builder.
 
 ## 4. Verification and operational boundaries
 After configuration, record a sanitized screenshot/settings summary and verify with read-only main/rules/environment views. Do not publish host inventories or secrets.
