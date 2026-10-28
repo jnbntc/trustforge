@@ -25,7 +25,6 @@
       },
       "env": {
         "UV_PYTHON_DOWNLOADS": "never",
-        "UV_CACHE_DIR": "${{ runner.temp }}/trustforge-uv-cache",
         "PYTHONDONTWRITEBYTECODE": "1"
       },
       "defaults": {
@@ -39,6 +38,10 @@
           "with": {
             "persist-credentials": false
           }
+        },
+        {
+          "name": "Set isolated cache directory",
+          "run": "printf 'UV_CACHE_DIR=%s/trustforge-uv-cache\\n' \"$RUNNER_TEMP\" >> \"$GITHUB_ENV\""
         },
         {
           "uses": "actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
