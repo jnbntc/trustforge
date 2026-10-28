@@ -8,11 +8,29 @@ from rich.table import Table
 
 from trustforge.oci.client import PlatformInspection, inspect_reference
 from trustforge.oci.errors import OciError
+from trustforge.oci.head import head_reference
 from trustforge.oci.models import Descriptor, ImageIndex
 
 app = typer.Typer(
     help="Read-only OCI metadata inspection.", no_args_is_help=True, add_completion=False
 )
+
+
+def operation_error(error: OciError, json_output: bool) -> None:
+    """Shared sanitized CLI error contract for metadata commands."""
+    if json_output:
+        import json
+
+        typer.echo(
+            json.dumps(
+                {"schema_version": 1, "error": {"code": error.code, "message": str(error)}},
+                sort_keys=True,
+            ),
+            err=True,
+        )
+    else:
+        Console(stderr=True).print(f"{error.code}: {error}", style="red", markup=False)
+    raise typer.Exit(code=error.exit_code) from None
 
 
 def platform_label(descriptor: Descriptor) -> str:
@@ -42,19 +60,8 @@ def inspect_command(
             else inspect_reference(reference, platform=platform)
         )
     except OciError as error:
-        if json_output:
-            import json
-
-            typer.echo(
-                json.dumps(
-                    {"schema_version": 1, "error": {"code": error.code, "message": str(error)}},
-                    sort_keys=True,
-                ),
-                err=True,
-            )
-        else:
-            Console(stderr=True).print(f"{error.code}: {error}", style="red", markup=False)
-        raise typer.Exit(code=error.exit_code) from None
+        operation_error(error, json_output)
+        return
     if json_output:
         typer.echo(result.model_dump_json(by_alias=True))
         return
@@ -95,3 +102,28 @@ def inspect_command(
         )
     console.print(table)
     console.print("Metadata integrity only; authenticity and deployment are not verified.")
+
+
+@app.command("head")
+def head_command(
+    reference: Annotated[str, typer.Argument(help="Registry reference by tag or digest.")],
+    json_output: Annotated[
+        bool, typer.Option("--json", help="Emit JSON header observations.")
+    ] = False,
+) -> None:
+    """Observe manifest headers without reading its body or verifying content."""
+    try:
+        result = head_reference(reference)
+    except OciError as error:
+        operation_error(error, json_output)
+        return
+    if json_output:
+        typer.echo(result.model_dump_json(by_alias=True))
+        return
+    console = Console(highlight=False)
+    console.print(f"Registry digest claim: {result.digest}", markup=False)
+    console.print(f"Media type: {result.media_type}", markup=False)
+    console.print(f"Declared metadata bytes: {result.size_bytes}", markup=False)
+    console.print(
+        "HEAD headers only; content integrity, authenticity and deployment are not verified."
+    )

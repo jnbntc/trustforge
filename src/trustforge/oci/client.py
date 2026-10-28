@@ -57,12 +57,15 @@ def get_bounded(
     limit: int,
     headers: dict[str, str],
     params: dict[str, str] | None = None,
+    method: Literal["GET", "HEAD"] = "GET",
 ) -> Reply:
-    """Only GET; do not read status/error bodies or follow any redirect."""
+    """Read-only GET/HEAD; HEAD and error bodies are never consumed."""
+    if method not in ("GET", "HEAD"):
+        raise OciError("INVALID_METHOD", "Only metadata GET and HEAD are supported.", 2)
     timeout = min(10.0, remaining_time(deadline))
     try:
         with client.stream(
-            "GET",
+            method,
             url,
             headers=headers,
             params=params,
@@ -92,6 +95,9 @@ def get_bounded(
                     raise OciError(
                         "RESPONSE_TOO_LARGE", "Metadata exceeds its response size limit."
                     )
+            if method == "HEAD":
+                remaining_time(deadline)
+                return Reply(status, response_headers, b"")
             body = bytearray()
             for chunk in response.iter_bytes():
                 remaining_time(deadline)
