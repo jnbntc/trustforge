@@ -58,6 +58,7 @@ def get_bounded(
     headers: dict[str, str],
     params: dict[str, str] | None = None,
     method: Literal["GET", "HEAD"] = "GET",
+    allow_not_found: bool = False,
 ) -> Reply:
     """Read-only GET/HEAD; HEAD and error bodies are never consumed."""
     if method not in ("GET", "HEAD"):
@@ -77,7 +78,7 @@ def get_bounded(
                 raise OciError("REDIRECT_REJECTED", "Registry/token redirects are not followed.", 3)
             if status == 429:
                 raise OciError("RATE_LIMITED", "Registry/token rate limit reached (HTTP 429).", 6)
-            if status == 401:
+            if status == 401 or (status == 404 and allow_not_found):
                 return Reply(status, response_headers, b"")
             if status != 200:
                 raise OciError("HTTP_ERROR", f"Registry/token endpoint returned HTTP {status}.", 6)
