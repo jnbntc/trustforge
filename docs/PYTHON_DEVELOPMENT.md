@@ -16,7 +16,7 @@ uv run --no-sync trustforge doctor --json
 ```
 Sync creates only the project .venv and uv's cache; it may access PyPI and build the local Python package. It does not create a Distrobox or pull/build OCI images. For a private cache, set UV_CACHE_DIR to a writable directory reserved for this checkout. Disable interpreter downloads with UV_PYTHON_DOWNLOADS=never when using an existing interpreter.
 
-HTTPX is deferred until M1 introduces HTTP transport. Pydantic validates the doctor report now; Typer parses the CLI and Rich renders its human table. uv.lock pins application and dev dependencies, including the build backend. Dependency updates are reviewed pyproject/lock changes, not implicit upgrades.
+HTTPX belongs to the separate M1 transport slice; this guide describes the foundation environment. Pydantic validates the doctor report now; Typer parses the CLI and Rich renders its human table. uv.lock pins application and dev dependencies, including the build backend. Dependency updates are reviewed pyproject/lock changes, not implicit upgrades.
 
 ## CLI contract
 - --help: exit 0; no arguments: help and exit 2.
@@ -35,11 +35,11 @@ uv run --no-sync ruff format --check .
 uv run --no-sync mypy
 uv build --python .venv/bin/python --no-build-isolation
 ```
-The final command builds only a Python wheel/sdist, using the locked backend installed by sync; it does not publish. The isolated default build mode may resolve build dependencies separately. Test a rebuilt wheel in a fresh venv before release. The companion TF-005 draft automates checks and installation of a wheel rebuilt from the sdist.
+The final command builds only a Python wheel/sdist, using the locked backend installed by sync; it does not publish. The isolated default build mode may resolve build dependencies separately. Test a rebuilt wheel in a fresh venv before release. The integrated TF-005 CI automates checks and installation of a wheel rebuilt from the sdist.
 
 src/trustforge/cli.py handles presentation and exit codes; doctor.py collects typed observations; __init__.py reads installed metadata; __main__.py supports python -m trustforge; py.typed marks the typed package.
 
 Tests cover normal/invalid CLI input, Python/tool prerequisites, JSON and human output, return codes, blocked subprocess/network calls, credential sentinel access and unchanged working files. These are application tests, not Cosign, OCI or container interoperability tests.
 
-## Review order
-Review the independent TF-001 Apache license draft first. TF-004 can be reviewed independently of governance documentation. TF-005 CI is based on the TF-004 branch because main has no package yet; merge TF-004, rebase/retarget TF-005 to main and require fresh green CI. No issue is closed automatically.
+## Integrated foundation
+License #32, package #33 and CI #34 are merged. Main 722d24e99e534196f17eb6eda0c91b325315b5e6 passed [post-merge Python 3.13 CI](https://github.com/jnbntc/trustforge/actions/runs/40682933075). Review [M0 acceptance](M0_ACCEPTANCE.md) and governance #31 for remaining owner decisions; no foundation PR remains stacked. Future OCI drafts have their own review order. No issue closes automatically.

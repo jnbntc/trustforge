@@ -1,7 +1,7 @@
 # ADR-013 — Workspace confiable y bootstrap independiente en distrobox-stack
 
 Fecha: 2026-10-27.
-Estado: PROPUESTA CORREGIDA para nueva revisión de las PR #18/#30.
+Estado: INTEGRADA como decisión de desarrollo confiable mediante stack #18 (541115eecce9e72bd4989ad5ac1c28f14a1a0c59) y TrustForge #30 (da596a15dfc107b358b662b02a8ac228396ac69e), squash confirmado el 28-10-2026. La implementación operativa sigue pendiente.
 La revisión arquitectónica del usuario acepta conservar Distrobox **para desarrollo confiable** con los límites siguientes. La aceptación de ese alcance no autoriza merge, build, publicación, firma ni despliegue.
 
 ## Decisión 1: fuente única y uso confiable
@@ -32,5 +32,5 @@ Los RPM y la inicialización Distrobox siguen móviles: inventario no equivale a
 
 ## Alternativas y revisión
 Definiciones duplicadas se rechazan por divergencia. Incorporación a operaciones masivas se rechaza por el alcance sobre otros workspaces. Un runtime aislado queda reservado al diseño separado de M4, no como reemplazo silencioso del workspace confiable.
-[Contrato consumidor](../DEVELOPMENT_ENVIRONMENT.md), [definición y bootstrap canónicos](https://github.com/jnbntc/distrobox-stack/tree/204add3b2ec88825379e345e19d7d0c4e5dbaabb/workspaces/trustforge-dev) y comentarios de revisión en [PR #18](https://github.com/jnbntc/distrobox-stack/pull/18) / [PR #30](https://github.com/jnbntc/trustforge/pull/30).
-TF-003 abierta; PRs en borrador, pendientes de nueva revisión.
+[Contrato consumidor](../DEVELOPMENT_ENVIRONMENT.md), [definición y bootstrap canónicos](https://github.com/jnbntc/distrobox-stack/tree/541115eecce9e72bd4989ad5ac1c28f14a1a0c59/workspaces/trustforge-dev) y comentarios de revisión en [PR #18](https://github.com/jnbntc/distrobox-stack/pull/18) / [PR #30](https://github.com/jnbntc/trustforge/pull/30).
+TF-003 abierta; integración de fuente completada, sin autorización ni evidencia nueva de build, publicación o despliegue.
