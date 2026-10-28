@@ -1,50 +1,51 @@
 # TF-003 — Contrato consumidor de trustforge-dev
 
-Estado: propuesta de integración; revisión arquitectónica pendiente. Sin construcción, publicación ni creación del entorno.
+Estado: propuesta corregida para nueva revisión; sin build, publicación, firma real ni despliegue.
 Issue: [TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3).
-Definición canónica propuesta: [distrobox-stack PR #18](https://github.com/jnbntc/distrobox-stack/pull/18).
-Snapshot revisable: [workspaces/trustforge-dev](https://github.com/jnbntc/distrobox-stack/tree/44851ec911ebc0eabba88eb18c53cb4849229754/workspaces/trustforge-dev), commit `44851ec911ebc0eabba88eb18c53cb4849229754`.
+Fuente única: [distrobox-stack PR #18](https://github.com/jnbntc/distrobox-stack/pull/18), [snapshot canónico](https://github.com/jnbntc/distrobox-stack/tree/2998e59790416c491d65fced798554a97c3e3b02/workspaces/trustforge-dev), commit `2998e59790416c491d65fced798554a97c3e3b02`.
+Decisión: [ADR-013 corregido](adr/013-distrobox-stack-workspace.md).
 
-## Responsabilidades y contrato
-distrobox-stack define receta, herramientas, locks, plantilla, build/publicación y mantenimiento. TrustForge documenta los requisitos del consumidor y valida que el entorno los cumpla; no contiene otro Containerfile, manifest o lock de herramientas del workspace.
+## Uso y responsabilidades
+trustforge-dev es un workspace de **desarrollo confiable**, no un sandbox de seguridad. Se utiliza para código y pruebas confiables; M4 no ejecutará artefactos adversarios en este entorno.
+distrobox-stack conserva Containerfile, manifest, toolchain/locks, workflows y bootstrap independiente. Este repositorio solo define requisitos de consumo y aceptación; no duplica esas definiciones ni importa Gate M3 para aceptar el primer entorno.
 
-- Plataforma inicial: linux/amd64 sobre Podman rootless. Fedora Toolbox 44, por digest validado de manifiesto de plataforma. Arquitecturas adicionales requieren definición y prueba separadas.
-- Python de aplicación: 3.13 gestionado por uv; parche exacto, build y SHA-256 de origen en el [contrato canónico](https://github.com/jnbntc/distrobox-stack/tree/44851ec911ebc0eabba88eb18c53cb4849229754/workspaces/trustforge-dev/contract.json). No reemplazar Python del host ni /usr/bin/python3.
-- Herramientas: Git, utilidades OCI de inspección, pytest, Ruff y mypy según ese contrato y su [lock con hashes](https://github.com/jnbntc/distrobox-stack/tree/44851ec911ebc0eabba88eb18c53cb4849229754/workspaces/trustforge-dev/requirements.lock). Pydantic/HTTPX/Typer/Rich y dependencias de la aplicación se fijarán en TF-004 dentro de este repositorio.
-- Imagen final: solo `ghcr.io/jnbntc/trustforge-dev@sha256:...` después de verificar sus evidencias. El digest de Fedora base no es el digest del workspace; el segundo aún no existe como resultado de esta tarea.
-- Checkout explícito: ~/Proyectos/trustforge en /workspace/trustforge, lectura/escritura. HOME/cachés dedicados según la definición canónica, sin exports al host ni instalaciones en el Python del sistema.
-- No configuración de storage.conf, cambio de graphroot, motor anidado ni solicitud explícita de dispositivos/capacidades/sockets. No modificar otros workspaces.
+Plataforma inicial linux/amd64 y Podman rootless. Fedora Toolbox 44/uv por los digests ya comprobados, Python 3.13.18 gestionado y herramientas/lock según [contract.json](https://github.com/jnbntc/distrobox-stack/tree/2998e59790416c491d65fced798554a97c3e3b02/workspaces/trustforge-dev/contract.json).
+No sustituir Python del host ni /usr/bin/python3. Dependencias de la aplicación se fijarán en TF-004, sin confundirlas con el venv de herramientas.
+HOME/cachés dedicados y checkout explícito ~/Proyectos/trustforge -> /workspace/trustforge:rw, conforme a la fuente única. Sin cambio de graphroot/storage.conf, políticas SELinux, servicios, workspaces o pipelines existentes.
 
-Los datos de preflight del host fueron aportados por el usuario para esta planificación; este ejecutor no los volvió a auditar. No se publican inventarios ni salidas completas del host. Las versiones instaladas comunicadas no prueban funcionamiento del futuro contenedor.
+## Modelo de seguridad delimitado
+Distrobox 1.8.2.5 añade --privileged y label=disable dentro del contexto rootless. HOME original y /run/user pueden seguir compartidos, con visibilidad potencial de sockets del usuario.
+Rootless limita privilegios respecto del host; no elimina permisos/montajes heredados ni garantiza confinamiento SELinux. El host puede seguir Enforcing mientras las etiquetas del contenedor están desactivadas.
+La revisión acepta esa integración para desarrollo confiable. Flags/mounts/sockets efectivos requieren prueba autorizada posterior; no se ha creado un contenedor para medirlos.
+M4 tendrá frontera y aceptación propias: runtime restringido explícitamente para bajo riesgo o VM desechable si el riesgo exige ese aislamiento. No se implementa M4 ni se reutiliza el workspace como sandbox.
 
-## Evidencia estática disponible
-Se verificaron por HTTPS los índices y manifiestos linux/amd64 de Fedora Toolbox 44 y uv: hash de bytes contra cabecera y descriptor, sin descargar capas.
-Se contrastó el origen de Python con uv 0.13.6 y se resolvió el lock de herramientas para Python 3.13.18/linux x86_64, sin instalarlas. Pins, hashes, herramientas/resolver y límites están en el contrato y README canónicos; esta página no es una segunda fuente editable de pins.
-Pasaron seis pruebas offline del workspace, incluyendo rechazo de tag mutable, repositorio distinto, digest malformado e inyección en rutas. Se validaron YAML, sintaxis shell/Containerfile, enlaces y permisos/triggers; no se ejecutaron motores.
-No existe evidencia de build, inicialización Distrobox, acceso al checkout, red, SELinux, herramientas ejecutadas dentro de la imagen ni dos reconstrucciones reproducibles. Hadolint/ShellCheck/actionlint no estaban disponibles en el ejecutor y no se instalaron.
+## Bootstrap de confianza independiente de M3
+Usar el [procedimiento canónico exacto](https://github.com/jnbntc/distrobox-stack/tree/2998e59790416c491d65fced798554a97c3e3b02/workspaces/trustforge-dev/BOOTSTRAP.md) desde código revisado y fijado por commit, fuera de la imagen a aceptar.
+El adaptador provisional delega criptografía a Cosign fijado e independiente. Comprueba firma por identidad/issuer/workflow/source exactos, raíces aprobadas, digest final, atestaciones autenticadas del mismo subject, SBOM, provenance y parámetros/materiales esperados.
+La política de ejemplo sigue sin aprobar, sin source commit ni raíz inventados. El operador aporta una política externa revisada y anclas independientes; no acepta archivos suministrados por la imagen como prueba de sí mismos.
+Cosign/acciones y Syft están fijados en el contrato canónico; el futuro publisher genera SBOM y provenance custom y los atesta por digest. No se atribuye nivel SLSA ni evidencia de builder independiente.
+VERIFIED solo informa verificación bajo esas anclas; no autoriza despliegue. La aprobación humana de creación/primer inicio debe ser posterior, nueva y para el mismo digest. El renderer de manifest no es un verificador.
 
-## Bloqueo arquitectónico que debe resolverse antes del despliegue
-Distrobox 1.8.2.5 añade internamente --privileged y --security-opt label=disable. Un HOME dedicado y unshare_all no eliminan esos flags ni todos los montajes: HOME original y /run/user pueden compartirse, dando visibilidad a sockets de sesión/runtime.
-Por eso rootless no demuestra confinamiento SELinux ni ausencia de accesos heredados. La propuesta no agrega privilegios explícitos; **no satisface aún una garantía estricta de Distrobox sin privilegios o sockets compartidos**.
-Revisar [ADR-013 propuesto](adr/013-distrobox-stack-workspace.md): no aceptar silenciosamente la integración ni sustituir el consumidor por otro runtime sin revisión.
+## Criterios de aceptación de TF-003
+- [x] Definición única optativa; pins base/uv/Python y lock con hashes conservados.
+- [x] Modelo de desarrollo confiable y frontera M4 independiente documentados en ADR-013.
+- [x] Bootstrap sin dependencia circular con Gate; código/política/workflow preparados, denegación por defecto y tests con fixtures.
+- [x] Validación específica de Containerfile, JSON/INI, scripts, locks, workflows y bootstrap en CI de PR, sin build/publicación ni expansión a nueve imágenes.
+- [ ] Nueva revisión de ambas PRs y aceptación documental de ADR-013.
+- [ ] Aprobar anclas, identidad/issuer/workflow/source commit, entorno protegido y permisos de publicación/firma.
+- [ ] Autorizar por separado build, publicación/firma y verificación real; generar digest y evidencias auténticas.
+- [ ] Probar fallos reales de firma/identidad/issuer/subject/source, compatibilidad de Cosign/GHCR/referrers y consistencia del output.
+- [ ] Aprobar despliegue y probar mounts/flags/sockets, rootless, herramientas, checkout/persistencia, red y efectos SELinux.
+- [ ] Documentar repetición de despliegue por digest y evaluar reproducibilidad de build con RPM/inicialización móviles, no solo inventario.
+- [ ] Validar rollback limitado a recursos nuevos y revisar cierre; no cerrar #3 por estas correcciones estáticas.
 
-## Criterios de validación para completar TF-003
-- [x] Definición única, declarativa y revisable en distrobox-stack; referencias de ambos repositorios coherentes.
-- [x] Fuentes base/uv por digest, Python gestionado y lock de herramientas con hashes.
-- [x] Pruebas estáticas/negativas; preservación de manifests, orquestadores, imágenes y workflows existentes.
-- [ ] Revisar y aceptar arquitectura/privilegios/montajes reales de Distrobox.
-- [ ] Aprobar y ejecutar build, medir inventario RPM/tamaño y probar la toolchain con Python gestionado.
-- [ ] Fijar digest final; generar SBOM, firma Cosign y provenance mediante mecanismos soportados y verificar identidad/subject/builder según política aprobada. No se atribuye nivel SLSA.
-- [ ] Aprobar y probar verificación antes del despliegue; el renderer de manifest solo valida formato.
-- [ ] Aprobar creación/primer inicio de trustforge-dev y comprobar rootless, mounts, checkout, persistencia, red y SELinux reales, sin tocar otros workspaces.
-- [ ] Documentar repetición por digest y límites de reconstrucción: repos RPM e inicialización aún móviles; inventario no es snapshot ni prueba de igualdad.
-- [ ] Probar rollback limitado a recursos nuevos y realizar revisión final; no cerrar #3 por completar documentación.
+## Validación e impactos
+Datos del host aportados por el usuario; este ejecutor no realizó una nueva auditoría del host ni publicó salidas completas.
+Las fixtures simulan respuestas de Cosign para probar parsers/controles; no son certificados, firmas o evidencia criptográfica real.
+El nuevo CI de PR es específico y solo ejecuta validaciones estáticas/offline con biblioteca estándar. Build/publicación/firma siguen en workflow_dispatch main-only; no se ejecutaron. Los cuatro pipelines anteriores, manifests/orquestación y workspaces existentes conservan sus fuentes.
+Impacto futuro: imagen/capa/cachés en almacenamiento rootless existente, HOME dedicado y escrituras del checkout y otros recursos integrados por Distrobox. Tamaño efectivo y runtime no probados.
+Rollback canónico: solo el nuevo contenedor y recursos identificados como nuevos; conservar checkout/evidencia, revisar HOME/cachés, no prune/reset, borrar graphroot ni recrear el stack.
 
-## Despliegue, impacto y rollback
-El [procedimiento canónico](https://github.com/jnbntc/distrobox-stack/tree/44851ec911ebc0eabba88eb18c53cb4849229754/workspaces/trustforge-dev/README.md) contiene el orden de aprobaciones, creación de manifest individual, verificación y rollback.
-El nuevo workflow es manual, main-only y publish=false por defecto. No se incluye en el manifest, scripts o matrices masivos; integrar PRs no autoriza dispatch, publicación ni creación.
-Impacto futuro: almacenamiento rootless ya configurado, imagen/cachés/capa escribible, HOME dedicado y checkout persistente. No se promete un consumo de disco sin medir. Distrobox integra más recursos que el bind explícito y puede escribir en ellos.
-Rollback: retirar solo el nuevo contenedor, conservar checkout y evidencia, revisar HOME/cachés nuevos; no prune/reset, no borrar graphroot, no limpiar imágenes compartidas ni recrear el stack completo.
-
-## Actualización de versiones
-Cambiar primero la fuente canónica en distrobox-stack mediante PR, revisar digests/locks y pruebas, y actualizar esta referencia al commit aceptado. Si una nueva versión altera compatibilidad, privilegios o límites de confianza, proponer ADR antes del despliegue. No copiar la definición al repositorio consumidor.
+## Garantías pendientes
+Digest comprueba integridad, firma/identidad autenticidad, provenance describe origen/build autenticados bajo el modelo aprobado, repetir por digest consume el mismo artefacto y reconstruir exige controlar entradas móviles. No son equivalentes.
+RPM e inicialización no están fijados por un snapshot; inventario no demuestra rebuild idéntico. SBOM/firma/provenance reales, herramientas ejecutadas y reproducibilidad siguen pendientes de ejecución autorizada.

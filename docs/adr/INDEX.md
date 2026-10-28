@@ -17,7 +17,7 @@ ADR-001 through ADR-012: dated 2026-10-27, ACCEPTED AS DESIGN BASELINE, not yet 
 | ADR-012 | Python 3.13 proposed with uv; pinned external tool versions at M0 | Reproducible toolchain with dependency compatibility check | Tested toolchain suggests better supported version |
 
 ## Proposed for review
-- [ADR-013 — Environment managed by distrobox-stack](013-distrobox-stack-workspace.md): single canonical environment, opt-in integration and explicit Distrobox privilege boundary. PROPOSED; deployment not approved.
+- [ADR-013 — Trusted workspace and independent bootstrap in distrobox-stack](013-distrobox-stack-workspace.md): REVISED PROPOSAL for review; trusted-development-only scope accepted by the user's architecture review, separate M4 boundary, Cosign bootstrap independent of Gate M3. No execution/deployment authorized.
 
 ## ADR template
 - Context and threat/constraint

@@ -6,7 +6,7 @@ First operational task: [TF-003 / #3](https://github.com/jnbntc/trustforge/issue
 ## M0 — Foundation (Gate: lint/type/tests green; documentation and reproducible bootstrap)
 - TF-001: Initialize public Apache-2.0 repo, README, CODEOWNERS optional, CONTRIBUTING, .gitignore, security reporting guidance. Acceptance: clean clone documented; no secrets.
 - TF-002: `AGENTS.md`, issue/PR templates, ADR framework, project-status and roadmap. Acceptance: Codex has explicit scope and delivery contract.
-- TF-003: Dedicated Distrobox bootstrap and host preflight read-only checks. Canonical environment proposed in distrobox-stack; see [consumer contract](DEVELOPMENT_ENVIRONMENT.md) and ADR-013. Acceptance: recorded versions/digests, real verification and reproducibility evidence, explicit review of Distrobox integration/privileges, scoped rollback and no host mutation without approval. Static documentation/PRs alone do not complete this issue.
+- TF-003: Trusted-development Distrobox workspace with canonical definition in distrobox-stack; see [consumer contract](DEVELOPMENT_ENVIRONMENT.md) and revised ADR-013. Initial trust verification uses independent pinned Cosign, not M3 Gate. Acceptance: recorded pins/digests, approved identity/issuer/roots/source, authenticated image/SBOM/provenance checks and explicit human deployment approval; real runtime/reproducibility evidence, scoped rollback and no unauthorized host mutation. Static/fixture tests alone do not complete this issue.
 - TF-004: Python src-layout with uv, Typer, pytest, Ruff, mypy. Acceptance: CLI `--help`, tests, lint, type-check in local environment and CI.
 - TF-005: Hardened minimal CI and branch protection instructions. Acceptance: minimal permissions; untrusted PRs do not receive publish/sign privileges.
 
@@ -32,6 +32,7 @@ First operational task: [TF-003 / #3](https://github.com/jnbntc/trustforge/issue
 - TF-305: End-to-end release tests (wrong signer, altered digest, missing evidence, broken attestation); publish v0.1.0 after review.
 
 ## M4 — Adversarial Lab / v0.2.0 (Gate: >=10 reproducible isolated scenarios)
+Separate security boundary from trustforge-dev: restricted containers for low-risk cases or disposable VMs when isolation requirements justify them, with independent acceptance and authorization. Never execute untrusted adversarial artifacts in the trusted development workspace. No M4 implementation in TF-003.
 - TF-401: Scenario harness with expected decision matrix and fixture fixtures.
 - TF-402: Tag substitution, artifact mismatch, unsigned image, unauthorized signer/workflow, unauthenticated claims, missing SBOM/provenance.
 - TF-403: Malformed registry metadata, oversized responses, bogus media types, revoked/denied digest by policy, TOCTOU test.
