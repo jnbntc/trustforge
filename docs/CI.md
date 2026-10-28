@@ -1,8 +1,8 @@
 # Python CI — TF-005
 
-The .github/workflows/python.yml change is rebased onto main after Apache-2.0 license PR #32 (7cde9a63ee7fe9b90d79545f6dd2b79613832969) and TF-004 package PR #33 (af83598dceef0ee7660f73eb199071bf9fa3196f) were integrated by squash. PR #34 targets main and changes only this workflow and this document. Require a fresh green run on the rebased head before integration.
+Integrated by PR #34 at main 722d24e99e534196f17eb6eda0c91b325315b5e6, after the license #32 and package #33 squash merges. [Post-merge run 40682933075](https://github.com/jnbntc/trustforge/actions/runs/40682933075) passed. There is no remaining stacked dependency for this foundation CI. Future stacked feature PRs must still be rebased/retargeted and freshly validated before integration.
 
-Stable required-check candidate: **Python 3.13 checks**. Every pull request runs it, including documentation PRs; pushes to main also run it. There is no path filter that could leave the required result pending. All pytest/lint/format/type/lock/distribution checks share this job, so success means all steps passed. Register this exact name only after seeing a real successful GitHub Actions run.
+Existing required-check candidate: **Python 3.13 checks**. Every pull request runs it, including documentation PRs; pushes to main also run it. There is no path filter that could leave the required result pending. All pytest/lint/format/type/lock/distribution checks share this job, so success means all steps passed. Register this exact name only after seeing a real successful GitHub Actions run.
 
 The job uses Ubuntu 24.04, setup-python 3.13 and uv 0.13.5. Actions are pinned to verified official tag commits:
 - actions/checkout 7.0.1: 3d3c42e5aac5ba805825da76410c181273ba90b1

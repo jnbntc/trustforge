@@ -1,24 +1,25 @@
-# Project status — 2026-10-27
+# Project status — 2026-10-28
 
-Phase: M0 Foundation. TF-003 / #3 remains open.
-Current work: architecture corrections on existing draft [distrobox-stack #18](https://github.com/jnbntc/distrobox-stack/pull/18) and [TrustForge #30](https://github.com/jnbntc/trustforge/pull/30). No new PRs, merges or deployment.
+M0 software foundation is integrated; M0 as a whole is NOT complete. TF-003 operational acceptance and effective GitHub protections remain pending. All issues are left open for owner decisions.
 
-## Revised architecture
-[ADR-013](adr/013-distrobox-stack-workspace.md): revised proposal for review. The user's architecture review accepts Distrobox only for trusted development; explicit host integration and rootless/privileged/SELinux limits remain documented.
-M4 adversarial work uses a separate restricted runtime or disposable VM according to risk; not implemented here.
-[Consumer contract](DEVELOPMENT_ENVIRONMENT.md) references one canonical definition in distrobox-stack commit `204add3b2ec88825379e345e19d7d0c4e5dbaabb`; no duplicate environment recipe, lock or policy here.
+## Confirmed integrated state
+TrustForge main: 722d24e99e534196f17eb6eda0c91b325315b5e6. License #32 (7cde9a63ee7fe9b90d79545f6dd2b79613832969), package #33 (af83598dceef0ee7660f73eb199071bf9fa3196f) and CI #34 (722d24e99e534196f17eb6eda0c91b325315b5e6) were merged by the owner. [Post-merge CI](https://github.com/jnbntc/trustforge/actions/runs/40682933075) passed Python 3.13 tests/lint/types/lock/distribution/install checks.
 
-## Prepared trust bootstrap
-Independent pinned Cosign verifier outside the target workspace removes the dependency on M3 Gate. It checks exact signer/issuer/workflow/source, approved roots, image digest and authenticated SBOM/provenance subjects/parameters/materials.
-Future manual build/publish/sign workflow and specific offline PR checks are prepared. Policy is unapproved and real image digest/evidence do not exist as task results.
-No crypto verification or container/reproducibility result is inferred from fixture/static tests. Pins already checked for base/uv/Python/lock were preserved without needless revalidation.
+Canonical workspace: distrobox-stack main 541115eecce9e72bd4989ad5ac1c28f14a1a0c59, merged via #18; TrustForge #30 integrated consumer docs/ADR-013. Trusted development only; separate M4 boundary. No OCI build, final signed image, real crypto verification, runtime or reproducibility result follows from these merges.
 
-## Next steps
-New review of both corrected PRs, ADR-013, proposed identity/issuer/trust roots and permissions. Then explicitly authorize build, publication/signing, real independent verification and deployment as distinct steps.
-Trust policy/source commit/roots must be approved externally; successful verification still requires new human approval before consuming that exact digest.
-RPM repositories and Distrobox initialization remain mutable; inventory is not a snapshot.
-Existing workspace definitions and pre-existing pipelines preserved. No host/storage/SELinux/service/container changes.
-TF-001 license/clean-clone review, TF-002 completion review, TF-004 application layout/dependencies/tests and TF-005 application CI/protection remain separate work. Application code not started; no M4 implementation.
+## M0 recommendations
+[Per-issue evidence and acceptance](M0_ACCEPTANCE.md):
+- TF-001: license/bootstrap documents and clean clone verified; recommend owner acceptance/closure after content review.
+- TF-002: contract/templates/ADRs/backlog exist; accept after reviewing the stale-state corrections in #31.
+- TF-003: continue; roots/source/identity/environment approvals and real operational evidence are missing.
+- TF-004: package/CLI/tests integrated and post-merge CI green; recommend owner acceptance/closure.
+- TF-005: minimal CI integrated; continue until governance instructions are accepted and effective controls are applied/verified.
 
-## Dedicated image-signature regression
-The bootstrap now requires the native Cosign 3.1.4 image-signature predicate and signed repository annotation, separately from SPDX/provenance. The prior generic critical.* projection could satisfy the old parser without dedicated-signature evidence in offline mocks. Regression: prior VERIFIED, corrected DENY. 27 static/negative tests pass; no real Cosign/GHCR cryptographic result. Scope and ADR-013 unchanged; consumer references updated to the canonical corrected commit. Human deployment approval remains mandatory.
+Main is unprotected in both repositories, rulesets are absent and trustforge-bootstrap-publish does not exist. [Owner runbook](GITHUB_GOVERNANCE.md) proposes controls; this PR does not configure them. Exact commercial/legacy plan and future enforcement remain NOT VERIFIED.
+
+## Authorized initial M1 work
+[TF-101 draft #35](https://github.com/jnbntc/trustforge/pull/35): reference parsing, typed metadata, fixtures and raw-byte SHA-256.
+[TF-102 draft #36](https://github.com/jnbntc/trustforge/pull/36), based on #35: bounded anonymous HTTPS/Bearer and oci inspect CLI; initial portions of TF-103/105.
+These drafts do not depend on Gate M3, do not execute images and do not complete M1. Referrers TF-104 and local/real-registry integration remain pending. Governance owns tracking docs; M1 drafts own OCI code/tests/guides without overlapping these edits.
+
+Review #31 independently, #35 before #36, then rebase/retarget #36 to merged main and require fresh CI. No merges or issue closure by this executor. No host/container/Settings changes, publication, signing or deployment.

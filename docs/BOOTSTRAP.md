@@ -1,19 +1,14 @@
 # GitHub bootstrap reconciliation
 
-## Verified public state — 2026-10-27
-Repository: https://github.com/jnbntc/trustforge
-Inspected main commit: `835347569b01c169c9c2fbca9cda4b7f1266d643`.
+## Current state — 2026-10-28
+Inspected main: 722d24e99e534196f17eb6eda0c91b325315b5e6. License #32, Python package #33 and CI #34 are merged. [Post-merge CI](https://github.com/jnbntc/trustforge/actions/runs/40682933075) passed. All M0 issues remain open for explicit acceptance; use [per-issue recommendations](M0_ACCEPTANCE.md).
 
-The initial documentation commit is published. All 28 entries in `docs/issues.json` match one live GitHub issue each, including their original title, body and milestone assignment. Six milestones exist (M0–M5); all 28 issues were open at inspection. See [issue mapping](ISSUE_MAP.md).
+TF-001 license and clean-clone criteria are technically satisfied; TF-002 scaffolding exists and stale status is corrected by #31. TF-004 package/CLI/quality checks are integrated. TF-005 minimal CI is integrated, but main/environment protections remain unapplied. TF-003 has only preparatory source and still needs its separately authorized operational evidence.
 
-Do not rerun `scripts/bootstrap_github.sh`. It is a historical creation script, includes public writes, and refuses an existing repository. Reconcile an incomplete bootstrap by inspecting GitHub and making focused changes via an issue and PR; do not delete/recreate the repository, milestones or issues.
+## Historical bootstrap
+The initial documentation catalogue matched 28 live issues and six milestones at the 2026-10-27 bootstrap inspection (835347569b01c169c9c2fbca9cda4b7f1266d643). docs/issues.json is the original catalogue, not a live acceptance report; use GitHub and project-status for subsequent work.
 
-## Remaining foundation work
-- [TF-001 / #1](https://github.com/jnbntc/trustforge/issues/1): README, CONTRIBUTING, SECURITY and .gitignore exist. The planned Apache-2.0 `LICENSE` file is absent. Clean-clone verification and completion review remain pending. CODEOWNERS was optional.
-- [TF-002 / #2](https://github.com/jnbntc/trustforge/issues/2): working contract, templates, roadmap and ADR index exist. Reconcile stale publication status and review the audit handoff. The 12 ADR entries form the accepted design baseline; individual expanded ADR documents have not been written.
-- [TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3): first operational task. Begin with [read-only host preflight](FEDORA_ATOMIC_PREFLIGHT.md); host audit and Distrobox creation have not been performed by this reconciliation.
-- [TF-004 / #4](https://github.com/jnbntc/trustforge/issues/4): no Python package, dependency lock or application tests yet.
-- [TF-005 / #5](https://github.com/jnbntc/trustforge/issues/5): no CI workflow exists. The branch API reported `protected: false` for main. Full ruleset/private vulnerability reporting configuration was not inspected. GitHub permissions and protection changes require explicit human approval.
+Do not rerun scripts/bootstrap_github.sh. It is a historical public-write creation script that refuses an existing repository. Reconcile focused changes through issues/PRs; never delete/recreate the repository, milestones or issues.
 
-## Acceptance boundary
-This is documentation reconciliation, not acceptance of M0. Keep foundation issues open until their own criteria and review are complete. No host configuration, signing identity, trust root, security policy, release workflow or GitHub permission is changed by this documentation proposal.
+## Boundary
+Source integration and green CI do not approve roots/identities, build, publication/signing or deployment. No host or GitHub setting is changed by this reconciliation. M0 is not complete while TF-003 and effective protections remain pending. Read [owner runbook](GITHUB_GOVERNANCE.md), [project status](project-status.md) and [consumer contract](DEVELOPMENT_ENVIRONMENT.md).
