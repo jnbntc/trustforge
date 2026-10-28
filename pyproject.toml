@@ -47,6 +47,7 @@ include = [
   "/src",
   "/tests",
   "/docs/PYTHON_DEVELOPMENT.md",
+  "/docs/OCI_MODELS.md",
   "/pyproject.toml",
   "/uv.lock",
   "/.python-version",
