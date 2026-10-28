@@ -17,11 +17,11 @@ from trustforge.doctor import DoctorReport, RequirementCheck, collect_checks
 runner = CliRunner()
 
 
-def test_help_lists_only_foundation_commands() -> None:
+def test_help_lists_foundation_and_oci_commands() -> None:
     result = runner.invoke(app, ["--help"])
     assert result.exit_code == 0
     assert all(command in result.output for command in ("version", "doctor"))
-    assert "OCI operations are not implemented" in result.output
+    assert "read-only OCI metadata inspection" in result.output
     assert "--install-completion" not in result.output
 
 

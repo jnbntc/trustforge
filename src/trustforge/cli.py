@@ -1,4 +1,4 @@
-"""Minimal CLI. OCI, policy and cryptographic operations are not implemented."""
+"""CLI foundation and read-only OCI metadata inspection."""
 
 import json
 from typing import Annotated
@@ -9,13 +9,15 @@ from rich.table import Table
 
 from trustforge import __version__
 from trustforge.doctor import collect_checks
+from trustforge.oci_cli import app as oci_app
 
 app = typer.Typer(
     name="trustforge",
-    help="TrustForge development foundation. OCI operations are not implemented.",
+    help="TrustForge: development diagnostics and read-only OCI metadata inspection.",
     no_args_is_help=True,
     add_completion=False,
 )
+app.add_typer(oci_app, name="oci")
 
 
 @app.command()
