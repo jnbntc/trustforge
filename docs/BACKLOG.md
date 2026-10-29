@@ -1,7 +1,7 @@
 # Initial backlog — TrustForge
 M0–M5 and all 28 issues have been created on GitHub. Identifiers TF-* remain stable planning IDs, distinct from GitHub numbers; see the [verified mapping](ISSUE_MAP.md). `docs/issues.json` preserves the original bootstrap catalogue; live GitHub issues carry subsequent scope refinements.
 
-First operational task: [TF-003 / #3](https://github.com/jnbntc/trustforge/issues/3), read-only preflight first. TF-001 and TF-002 remain open for bootstrap gaps and review; publication alone does not complete M0.
+Current acceptance (2026-10-29): the owner closed TF-001/TF-002/TF-004/TF-101/TF-103 as completed. M0 remains open with TF-003/TF-005 pending; M1 remains open with TF-102/TF-104/TF-105 pending. HEAD, platform selection and bounded Referrers pagination are integrated. Use the [acceptance matrix](M0_ACCEPTANCE.md), [operational checklist](TF003_OPERATIONAL_CHECKLIST.md) and [project status](project-status.md); do not recreate closed work or treat source integration as runtime acceptance.
 
 ## M0 — Foundation (Gate: lint/type/tests green; documentation and reproducible bootstrap)
 - TF-001: Initialize public Apache-2.0 repo, README, CODEOWNERS optional, CONTRIBUTING, .gitignore, security reporting guidance. Acceptance: clean clone documented; no secrets.
@@ -18,6 +18,7 @@ First operational task: [TF-003 / #3](https://github.com/jnbntc/trustforge/issue
 - TF-105: CLI `inspect` JSON + human output; integration tests against temporary local registry.
 
 ## M2 — Signed Build (Gate: third-party crypto verification of a published immutable digest)
+Preparation only: [next-sprint learning/test brief](M2_PREPARATION.md). No M2 code/build/publication is authorized by this consolidation.
 - TF-201: Small harmless sample app with pinned build dependencies and rootless image build.
 - TF-202: Minimal GitHub Actions publishing workflow; isolated publish privileges, immutable pinning, GHCR digest capture.
 - TF-203: Cosign keyless signing with exact authorized OIDC identity/issuer documented.

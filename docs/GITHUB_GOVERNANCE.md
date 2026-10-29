@@ -1,13 +1,13 @@
 # GitHub governance — owner runbook (TF-005)
 
-Proposal for human application, not settings already enabled. Inspected 2026-10-28.
+Proposal for human application, not settings already enabled. Refreshed 2026-10-29; changes remain a proposal.
 
 ## Observed state and eligibility
-Both repositories are public and owned by the personal account jnbntc (owner type User). Current main: TrustForge a1e74c922697cbcb6d46b87c71dc1607f9ea4733; stack 541115eecce9e72bd4989ad5ac1c28f14a1a0c59. Both report protected=false and no rulesets.
+Both repositories are public and owned by the personal account jnbntc (owner type User). Current main: TrustForge 297d3290e32e3f0aea56a91abaa6037d9174c250; stack 541115eecce9e72bd4989ad5ac1c28f14a1a0c59. Both report protected=false and no rulesets.
 
-Authenticated Settings was refreshed in this sprint and shows no environments in either repository, including no trustforge-bootstrap-publish in stack; both repositories allow all actions, do not enforce global SHA pinning, require fork-workflow approval for first-time contributors, default GITHUB_TOKEN to read contents/packages, and disallow Actions creating/approving PRs.
+Read-only API and authenticated Settings were refreshed during consolidation and shows no environments in either repository, including no trustforge-bootstrap-publish in stack; both repositories allow all actions, do not enforce global SHA pinning, require fork-workflow approval for first-time contributors, default GITHUB_TOKEN to read contents/packages, and disallow Actions creating/approving PRs.
 
-Public repositories on current Free/Pro plans support branch protection and environment reviewers. The exact billing/legacy plan and availability of every proposed UI control are NOT VERIFIED; stop if a required option is absent. This is a personal account: do not promise organization teams or organization-only push allowlists. No paid feature or plan upgrade is assumed.
+Public repositories on current Free/Pro plans support branch protection and environment reviewers. The exact billing/legacy plan and availability of every proposed UI control are NOT VERIFIED; stop if a required option is absent. This is a personal account: do not promise organization teams or organization-only push allowlists. No paid feature or plan upgrade is assumed. The collaborator page requested GitHub reauthentication; no credentials were accessed and the available independent reviewers are NOT VERIFIED. The owner must name an eligible collaborator before enabling an approval requirement; sole-maintainer PR/checks-only main protection remains feasible.
 Sources: [protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches), [environment eligibility](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments).
 
 ## 1. Protect main in each repository
@@ -26,9 +26,9 @@ Save, reopen the rule, and verify main reports protected plus the intended check
 | distrobox-stack | ShellCheck (Bash Scripts) | Exists and passed on current main; runs on all PRs |
 | distrobox-stack | Hadolint (Containerfiles) | Exists and passed on current main; runs on all PRs |
 | distrobox-stack | static | Exists, but path-filtered to trustforge workspace/workflows: do NOT require globally |
-| TrustForge | Python 3.13 checks | Integrated on main; post-merge run 40743034646 passed. Select this exact existing name |
+| TrustForge | Python 3.13 checks | Integrated on main; post-merge run 40809965768 passed. Select this exact existing name |
 
-A globally required path-filtered workflow can leave unrelated PRs pending forever. Review static for relevant stack PRs without pretending it covers all paths. Do not require build/publication/deployment as merge checks. TrustForge now runs this check on every PR and pushes to main: [post-merge PASS](https://github.com/jnbntc/trustforge/actions/runs/40743034646). Registering it as required is still an unapplied owner action.
+A globally required path-filtered workflow can leave unrelated PRs pending forever. Review static for relevant stack PRs without pretending it covers all paths. Do not require build/publication/deployment as merge checks. TrustForge now runs this check on every PR and pushes to main: [post-merge PASS](https://github.com/jnbntc/trustforge/actions/runs/40809965768). Registering it as required is still an unapplied owner action.
 
 ## 2. Review elevated workflows and token use
 Before accepting edits to .github/workflows, inspect events, checkout ref, shell interpolation, action pins, permissions, target digest and environment. Changes affecting trusted publishing source require fresh human review; a green Python check is not approval of release authority.
