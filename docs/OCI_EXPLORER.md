@@ -35,6 +35,16 @@ Expected operation failures leave stdout empty and write schema_version=1/error/
 No VERIFIED/ALLOW/deployment authorization is issued.
 
 ## Transport limits and trust boundaries
+
+Successful metadata and anonymous-token responses reject repeated Content-Type,
+Content-Length, Content-Encoding and Docker-Content-Digest fields with
+AMBIGUOUS_HEADERS before reading their bodies. This conservative singleton policy
+also rejects identical duplicates. Previously a repeated Content-Type could be
+hidden behind the first field's semicolon parameters and incorrectly accepted.
+The shared check covers inspect, HEAD, every Referrers page and token acquisition;
+no partial result or token forwarding follows an ambiguous response. A single
+Content-Type with parameters remains supported. Regression coverage is offline
+MockTransport, not a report of a real registry or cryptographic failure.
 TLS validation stays enabled. No HTTP mode, insecure override, local Docker/Podman/netrc credentials, interactive login, client certificate or credential flag exists. trust_env=false disables ambient proxy/CA environment configuration. This also means custom enterprise proxies/CAs are unsupported here.
 
 All redirects are rejected, including same-origin redirects; Location is never followed or printed. Cookies are discarded after each response. Bearer tokens remain in memory for one original manifest retry and are never placed in query parameters or reports.

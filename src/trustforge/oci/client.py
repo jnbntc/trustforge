@@ -82,6 +82,18 @@ def get_bounded(
                 return Reply(status, response_headers, b"")
             if status != 200:
                 raise OciError("HTTP_ERROR", f"Registry/token endpoint returned HTTP {status}.", 6)
+            # Joining duplicate Content-Type fields can hide a second type after
+            # the first field's semicolon parameters. Reject before reading bytes.
+            if any(
+                len(response_headers.get_list(name)) > 1
+                for name in (
+                    "content-type",
+                    "content-length",
+                    "content-encoding",
+                    "docker-content-digest",
+                )
+            ):
+                raise OciError("AMBIGUOUS_HEADERS", "Duplicate singleton metadata headers.")
             if response.headers.get("content-encoding", "identity").strip().lower() != "identity":
                 raise OciError(
                     "ENCODING_REJECTED", "Compressed metadata responses are not accepted."
