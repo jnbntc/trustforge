@@ -3,30 +3,23 @@
 M0 software foundation is integrated; M0 as a whole is NOT complete. TF-003 operational acceptance and effective GitHub protections remain pending. All issues are left open for owner decisions.
 
 ## Confirmed integrated state
-Current TrustForge main: 79200a23f2d438458a517cfb5a3f6320408361bc (HEAD #38 integrated after platform selection #37). Initial inspector checkpoint: 51e46f9d8fce61218abdcf4841453660bfd051dd. License #32 (7cde9a63ee7fe9b90d79545f6dd2b79613832969), package #33 (af83598dceef0ee7660f73eb199071bf9fa3196f) and CI #34 (722d24e99e534196f17eb6eda0c91b325315b5e6) were merged by the owner. [Post-merge CI](https://github.com/jnbntc/trustforge/actions/runs/40682933075) passed Python 3.13 tests/lint/types/lock/distribution/install checks.
+Current main: a1e74c922697cbcb6d46b87c71dc1607f9ea4733. HEAD #38 squash 79200a23f2d438458a517cfb5a3f6320408361bc passed [post-merge CI](https://github.com/jnbntc/trustforge/actions/runs/40707936814), 252 tests, Python 3.13.16. Referrers #39 was rebased to one own commit/seven own files on that main, preserving HEAD; its final head/base [PR CI](https://github.com/jnbntc/trustforge/actions/runs/40741997100) passed 302 tests before squash a1e74c922697cbcb6d46b87c71dc1607f9ea4733. [Post-merge main CI](https://github.com/jnbntc/trustforge/actions/runs/40743034646) passed 302 tests and quality/lock/distribution/install checks on Python 3.13.17.
 
-Canonical workspace: distrobox-stack main 541115eecce9e72bd4989ad5ac1c28f14a1a0c59, merged via #18; TrustForge #30 integrated consumer docs/ADR-013. Trusted development only; separate M4 boundary. No OCI build, final signed image, real crypto verification, runtime or reproducibility result follows from these merges.
+Earlier foundations: license #32, package #33, CI #34, governance #31, OCI models #35, inspection #36 and platform selection #37 are integrated. Canonical trusted workspace stays in distrobox-stack main 541115eecce9e72bd4989ad5ac1c28f14a1a0c59, with separate ADR-013/M4 boundaries. No image build/signing/runtime acceptance follows from source integration.
 
 ## M0 recommendations
 [Per-issue evidence and acceptance](M0_ACCEPTANCE.md):
 - TF-001: license/bootstrap documents and clean clone verified; recommend owner acceptance/closure after content review.
-- TF-002: contract/templates/ADRs/backlog exist; tracking corrections integrated via #31; owner acceptance remains pending.
+- TF-002: contract/templates/ADRs/backlog exist and #31 is integrated; recommend owner acceptance/closure for its explicit contract criteria.
 - TF-003: continue; roots/source/identity/environment approvals and real operational evidence are missing.
 - TF-004: package/CLI/tests integrated and post-merge CI green; recommend owner acceptance/closure.
 - TF-005: minimal CI integrated; continue until governance instructions are accepted and effective controls are applied/verified.
 
-Main is unprotected in both repositories, rulesets are absent and trustforge-bootstrap-publish does not exist. [Owner runbook](GITHUB_GOVERNANCE.md) proposes controls; no Settings were changed. These are the prior read-only governance observations; this sprint does not refresh Settings. Exact commercial/legacy plan and future enforcement remain NOT VERIFIED.
+Current read-only API and authenticated Settings: both main branches are unprotected with no rulesets; both repositories have no environments. Actions default tokens are read-only, Actions PR creation/approval is disabled, all actions are allowed, global SHA enforcement is off, and fork workflow approval is first-time contributors. [Concrete owner steps](GITHUB_GOVERNANCE.md) remain unapplied. Exact commercial/legacy plan and future enforcement remain NOT VERIFIED.
 
-## Integrated M1 and next draft
-[TF-101 #35](https://github.com/jnbntc/trustforge/pull/35) merged via squash 3ac0b6cfe5966ed6f0ba9fcbd1b15f2daf55c7da: reference parsing, models, fixtures and exact-byte digests.
-[TF-102 #36](https://github.com/jnbntc/trustforge/pull/36) merged via squash 51e46f9d8fce61218abdcf4841453660bfd051dd: bounded HTTPS/Bearer and CLI. It was rebased to one own commit/ten own files on actual main; fresh CI verified the new head/base before merge. Governance #31 merged via squash 39b92af9d429d4116b2006683ff7b93360c17e5f.
+## M1 acceptance and next draft
+TF-101 #6 primitives/fixtures and TF-103 #8 digest/platform selection meet their scoped implementation/negative-test criteria on main; [acceptance evidence](M0_ACCEPTANCE.md) recommends closure for human decision, not automatic closure. TF-102 GET/HEAD and TF-104 one-page API/standard-fallback discovery are integrated; their issues remain open for acceptance/follow-up. TF-105 temporary-local-registry integration remains pending.
 
-[Final main CI](https://github.com/jnbntc/trustforge/actions/runs/40692755282): PASS on Python 3.13.17, 177 tests, Ruff/format, mypy, lock, wheel/sdist and clean installation. [Separate real installed-CLI metadata tests](M1_INTEROPERABILITY.md): Docker Hub, Quay and GHCR passed both tag and immutable-digest queries; observed registry headers matched raw-byte hashes. No configs/layers/images were downloaded.
+New TF-104 pagination draft: strict same-endpoint next links, aggregate limits, per-page validation and explicit multi-page counts, with unchanged single-page JSON. Local 372 tests and separate real registry smoke are recorded in [Referrers documentation](OCI_REFERRERS.md). No public paginated example was identified; actual pagination remains NOT VERIFIED. This draft must not be merged automatically.
 
-TF-103 platform selection #37 is now integrated via squash 89f3fd817659b2aef800dcd4dc9289f0d0724aba after re-review of head ec66f8a1b535a67f27003c7834f320dd9b7965a1 and 222 regression tests. Post-merge CI passed: https://github.com/jnbntc/trustforge/actions/runs/40700457286 . This also contributes to TF-105; issue acceptance remains a human decision.
-
-HEAD [#38](https://github.com/jnbntc/trustforge/pull/38) integrated via squash 79200a23f2d438458a517cfb5a3f6320408361bc; post-merge CI passed: https://github.com/jnbntc/trustforge/actions/runs/40707936814 (252 tests). HEAD claims never imply content integrity.
-
-Referrers [#39](https://github.com/jnbntc/trustforge/pull/39) is rebased directly on that main, preserving HEAD and adding only [its discovery changes](OCI_REFERRERS.md). Paginated responses still fail explicitly here; pagination is a separate planned draft. Unit/negative CI remains offline; actual public interoperability is separately labelled.
-
-M1 remains partial: Referrers integration/acceptance, bounded pagination and TF-105 temporary-local-registry integration remain pending. TF-003 is open and does not block this authorized metadata sprint. No issue closure, Settings/host/container changes, image build, publication, signing or deployment occurred. The previous sprint integrated #31/#35/#36; the current sprint separately authorized and integrated #37. The current user explicitly authorized #38 and the reviewed rebased #39; new pagination code remains outside those merges. No issue is closed automatically.
+TF-003 stays open and independent. M0/M1 as a whole are not declared complete. Only #38/#39 were authorized and integrated this sprint. No issue closure, host/container/Settings/permission changes, OCI images/blobs/configs/layers/payloads, publication, signing or deployment occurred.
